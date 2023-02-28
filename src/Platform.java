@@ -1,23 +1,26 @@
-public class Platform extends Shape {
-    private final int width;
-    private final int height;
+public class Platform extends GameObject {
+    private float speed;
 
-    public Platform(String color, float speed, float coordinateX, float coordinateY, int width, int height) {
-        super(color, speed, coordinateX, coordinateY);
-        this.width = width;
-        this.height = height;
+    public Platform(String color, float coordinateX, float coordinateY, int width, int height, float speed) {
+        super(color, coordinateX, coordinateY, width, height);
+        this.speed = speed;
     }
 
-    public int getWidth() {
-        return width;
+    public float getSpeed() {
+        return speed;
     }
 
-    public int getHeight() {
-        return height;
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     @Override
-    void move() {
+    void checkCollision(GameObject object) {
+
+    }
+
+    @Override
+    void draw() {
 
     }
 }

@@ -1,33 +1,39 @@
 public class GameField {
     private float width;
     private float height;
-    private Ball ball;
-    private Platform platform;
-    private DestroyedBlock[] destroyedBlocks;
-    private PlayerStatistic playerStatistic;
+    private DisplayObject displayObject;
 
-    public GameField(float width, float height, Ball ball, Platform platform, DestroyedBlock[] destroyedBlocks, PlayerStatistic playerStatistic) {
+    public GameField(float width, float height, DisplayObject displayObject) {
         this.width = width;
         this.height = height;
-        this.ball = ball;
-        this.platform = platform;
-        this.destroyedBlocks = destroyedBlocks;
-        this.playerStatistic = playerStatistic;
+        this.displayObject = displayObject;
     }
 
-    void destroyBlock() {
-
+    public float getWidth() {
+        return width;
     }
 
-    void checkForBlockDestruction() {
-
+    public void setWidth(float width) {
+        this.width = width;
     }
 
-    boolean checkForEndOfGame() {
-        return false;
+    public float getHeight() {
+        return height;
     }
 
-    void drawGameField() {
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public DisplayObject getDisplayObject() {
+        return displayObject;
+    }
+
+    public void setDisplayObject(DisplayObject displayObject) {
+        this.displayObject = displayObject;
+    }
+
+    void checkForEndOfGame(){
 
     }
 }

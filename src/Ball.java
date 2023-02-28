@@ -1,17 +1,26 @@
-public class Ball extends Shape {
-    private final int radius;
+public class Ball extends GameObject {
+    private float speed;
 
-    public Ball(String color, float speed, float coordinateX, float coordinateY, int radius) {
-        super(color, speed, coordinateX, coordinateY);
-        this.radius = radius;
+    public Ball(String color, float coordinateX, float coordinateY, float width, float height, float speed) {
+        super(color, coordinateX, coordinateY, width, height);
+        this.speed = speed;
     }
 
-    public int getRadius() {
-        return radius;
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     @Override
-    void move() {
+    void checkCollision(GameObject object) {
+
+    }
+
+    @Override
+    void draw() {
 
     }
 }

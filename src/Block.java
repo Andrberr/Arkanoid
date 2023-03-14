@@ -1,26 +1,31 @@
-public class Block extends GameObject {
-    private Bonus bonus;
+public class Block extends DisplayObject {
+    private Bonuses bonuses;
 
-    public Block(String color, float coordinateX, float coordinateY, float width, float height, Bonus bonus) {
-        super(color, coordinateX, coordinateY, width, height);
-        this.bonus = bonus;
+    public Block(int color, int coordinateX, int coordinateY, int coordinateX1, int coordinateY1, int bindX, int bindY, Bonuses bonuses) {
+        super(color, coordinateX, coordinateY, coordinateX1, coordinateY1, bindX, bindY);
+        this.bonuses = bonuses;
     }
 
-    public Bonus getBonus() {
-        return bonus;
+    public Bonuses getBonuses() {
+        return bonuses;
     }
 
-    public void setBonus(Bonus bonus) {
-        this.bonus = bonus;
+    public void setBonuses(Bonuses bonuses) {
+        this.bonuses = bonuses;
     }
 
     @Override
-    void checkCollision(GameObject object) {
+    void checkCollision(DisplayObject object) {
 
     }
 
     @Override
     void draw() {
+
+    }
+
+    @Override
+    void move() {
 
     }
 }

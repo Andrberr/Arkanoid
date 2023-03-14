@@ -1,26 +1,41 @@
-public class Ball extends GameObject {
-    private float speed;
+public class Ball extends DisplayObject {
+    private int speed;
+    private int radius;
 
-    public Ball(String color, float coordinateX, float coordinateY, float width, float height, float speed) {
-        super(color, coordinateX, coordinateY, width, height);
+    public Ball(int color, int coordinateX, int coordinateY, int coordinateX1, int coordinateY1, int bindX, int bindY, int speed, int radius) {
+        super(color, coordinateX, coordinateY, coordinateX1, coordinateY1, bindX, bindY);
         this.speed = speed;
+        this.radius = radius;
     }
 
     public float getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
     @Override
-    void checkCollision(GameObject object) {
+    void checkCollision(DisplayObject object) {
 
     }
 
     @Override
     void draw() {
+
+    }
+
+    @Override
+    void move() {
 
     }
 }

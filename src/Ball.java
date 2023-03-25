@@ -2,8 +2,8 @@ public class Ball extends DisplayObject {
     private int speed;
     private int radius;
 
-    public Ball(int color, int coordinateX, int coordinateY, int coordinateX1, int coordinateY1, int bindX, int bindY, int speed, int radius) {
-        super(color, coordinateX, coordinateY, coordinateX1, coordinateY1, bindX, bindY);
+    public Ball(int color, int x1, int y1, int x2, int y2, int x, int y, int speed, int radius) {
+        super(color, x1, y1, x2, y2, x, y);
         this.speed = speed;
         this.radius = radius;
     }

@@ -6,7 +6,7 @@ public class Bonuses {
     void addBonus(Bonus bonus){
 
     }
-    void deleteBonus(Bonus bonus){
+    void removeBonus(Bonus bonus){
 
     }
 }

@@ -8,7 +8,7 @@ public class Balls {
     void addBall(Ball ball){
 
     }
-    void deleteBall(Ball ball){
+    void removeBall(Ball ball){
 
     }
 }

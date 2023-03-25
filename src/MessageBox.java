@@ -1,11 +1,11 @@
 public class MessageBox {
     private Players players;
-    private Button button;
+    private Button[] buttons;
     private TextBox textBox;
 
-    public MessageBox(Players players, Button button, TextBox textBox) {
+    public MessageBox(Players players, Button[] buttons, TextBox textBox) {
         this.players = players;
-        this.button = button;
+        this.buttons = buttons;
         this.textBox = textBox;
     }
 

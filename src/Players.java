@@ -6,8 +6,6 @@ public class Players {
     }
     public void addPlayer(Player player){
     }
-
     public void deletePlayer(Player player){
     }
-
 }

@@ -1,73 +1,72 @@
 public abstract class DisplayObject {
-    private int coordinateX;
-    private int coordinateY;
-    private int coordinateX1;
-    private int coordinateY1;
-    private int bindX;
-    private int bindY;
+    private int x1;
+    private int y1;
+    private int x2;
+    private int y2;
+    private int x;
+    private int y;
     private int color;
 
-
-    public DisplayObject(int color, int coordinateX, int coordinateY, int coordinateX1, int coordinateY1, int bindX, int bindY) {
+    public DisplayObject(int color, int x1, int y1, int x2, int y2, int x, int y) {
         this.color = color;
-        this.coordinateX = coordinateX;
-        this.coordinateY = coordinateY;
-        this.coordinateX1 = coordinateX1;
-        this.coordinateY1 = coordinateY1;
-        this.bindX = bindX;
-        this.bindY = bindY;
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.x = x;
+        this.y = y;
     }
 
-    public float getCoordinateX() {
-        return coordinateX;
+    public int getX1() {
+        return x1;
     }
 
-    public float getCoordinateY() {
-        return coordinateY;
+    public void setX1(int x1) {
+        this.x1 = x1;
+    }
+
+    public int getY1() {
+        return y1;
+    }
+
+    public void setY1(int y1) {
+        this.y1 = y1;
+    }
+
+    public int getX2() {
+        return x2;
+    }
+
+    public void setX2(int x2) {
+        this.x2 = x2;
+    }
+
+    public int getY2() {
+        return y2;
+    }
+
+    public void setY2(int y2) {
+        this.y2 = y2;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getColor() {
         return color;
-    }
-
-    public void setCoordinateX(int coordinateX) {
-        this.coordinateX = coordinateX;
-    }
-
-    public void setCoordinateY(int coordinateY) {
-        this.coordinateY = coordinateY;
-    }
-
-    public float getCoordinateX1() {
-        return coordinateX1;
-    }
-
-    public void setCoordinateX1(int coordinateX1) {
-        this.coordinateX1 = coordinateX1;
-    }
-
-    public float getCoordinateY1() {
-        return coordinateY1;
-    }
-
-    public void setCoordinateY1(int coordinateY1) {
-        this.coordinateY1 = coordinateY1;
-    }
-
-    public float getBindX() {
-        return bindX;
-    }
-
-    public void setBindX(int bindX) {
-        this.bindX = bindX;
-    }
-
-    public float getBindY() {
-        return bindY;
-    }
-
-    public void setBindY(int bindY) {
-        this.bindY = bindY;
     }
 
     public void setColor(int color) {
@@ -75,7 +74,8 @@ public abstract class DisplayObject {
     }
 
     abstract void checkCollision(DisplayObject object);
-    abstract void draw();
-    abstract void move();
 
+    abstract void draw();
+
+    abstract void move();
 }

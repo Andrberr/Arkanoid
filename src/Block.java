@@ -1,8 +1,8 @@
 public class Block extends DisplayObject {
     private Bonuses bonuses;
 
-    public Block(int color, int coordinateX, int coordinateY, int coordinateX1, int coordinateY1, int bindX, int bindY, Bonuses bonuses) {
-        super(color, coordinateX, coordinateY, coordinateX1, coordinateY1, bindX, bindY);
+    public Block(int color, int x1, int y1, int x2, int y2, int x, int y, Bonuses bonuses) {
+        super(color, x1, y1, x2, y2, x, y);
         this.bonuses = bonuses;
     }
 

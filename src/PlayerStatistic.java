@@ -17,4 +17,8 @@ public class PlayerStatistic {
     public void setTime(int time) {
         this.time = time;
     }
+
+    void updateStatistic(){
+
+    }
 }

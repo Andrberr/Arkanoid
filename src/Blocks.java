@@ -6,7 +6,7 @@ public class Blocks {
     void addBlock(Block block){
 
     }
-    void deleteBlock(Block block){
+    void removeBlock(Block block){
 
     }
 }

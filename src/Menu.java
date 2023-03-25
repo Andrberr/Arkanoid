@@ -1,10 +1,8 @@
 public class Menu {
-    private Button settingsBt;
     private Button newGameBt;
     private Button finishGameBt;
 
-    public Menu(Button settingsBt, Button newGameBt, Button finishGameBt) {
-        this.settingsBt = settingsBt;
+    public Menu(Button newGameBt, Button finishGameBt) {
         this.newGameBt = newGameBt;
         this.finishGameBt = finishGameBt;
     }
@@ -21,7 +19,4 @@ public class Menu {
 
     }
 
-    public void settingsBtClick(){
-
-    }
 }

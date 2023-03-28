@@ -1,14 +1,19 @@
+import java.awt.*;
+
 public class Balls {
     Ball[] balls;
 
-    Ball getBall(int ballNum) {
-        return null;
+    public Balls(){
+        balls = new Ball[1];
+        addBall();
     }
 
-    void addBall(Ball ball){
-
+    public Ball[] getBalls() {
+        return balls;
     }
-    void removeBall(Ball ball){
 
+    void addBall(){
+        Ball ball = new Ball(1170 / 2 - 20, 580, 1170 / 2 + 20, 620, 1170 / 2, 600, 2, 10, new Color(206, 18, 46), true);
+        this.balls[0] = ball;
     }
 }

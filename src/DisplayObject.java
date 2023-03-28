@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public abstract class DisplayObject {
     private int x1;
     private int y1;
@@ -5,9 +7,10 @@ public abstract class DisplayObject {
     private int y2;
     private int x;
     private int y;
-    private int color;
+    private Color color;
+    private boolean isDynamic;
 
-    public DisplayObject(int color, int x1, int y1, int x2, int y2, int x, int y) {
+    public DisplayObject(int x1, int y1, int x2, int y2, int x, int y, Color color, boolean isDynamic) {
         this.color = color;
         this.x1 = x1;
         this.y1 = y1;
@@ -15,6 +18,7 @@ public abstract class DisplayObject {
         this.y2 = y2;
         this.x = x;
         this.y = y;
+        this.isDynamic = isDynamic;
     }
 
     public int getX1() {
@@ -65,17 +69,17 @@ public abstract class DisplayObject {
         this.y = y;
     }
 
-    public int getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(int color) {
-        this.color = color;
+    public boolean isDynamic() {
+        return isDynamic;
     }
 
     abstract void checkCollision(DisplayObject object);
 
-    abstract void draw();
+    abstract void draw(Graphics2D g2d);
 
     abstract void move();
 }

@@ -1,9 +1,11 @@
+import java.awt.*;
+
 public class Bonus extends DisplayObject {
     private int bonusType;
     private String text;
 
-    public Bonus(int color, int x1, int y1, int x2, int y2, int x, int y, int bonusType) {
-        super(color, x1, y1, x2, y2, x, y);
+    public Bonus(int x1, int y1, int x2, int y2, int x, int y, int bonusType, Color color, boolean isDynamic) {
+        super(x1, y1, x2, y2, x, y, color, true);
         this.bonusType = bonusType;
     }
 
@@ -21,7 +23,7 @@ public class Bonus extends DisplayObject {
     }
 
     @Override
-    void draw() {
+    void draw(Graphics2D g2d) {
 
     }
 

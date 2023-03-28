@@ -1,11 +1,13 @@
+import java.awt.*;
+
 public class StatusBar extends DisplayObject {
     private TextBox[] textBoxes;
     private Button menuButton;
     private Menu menu;
     private GameStatistic gameStatistic;
 
-    public StatusBar(TextBox[] textBoxes, int color, int x1, int y1, int x2, int y2, int x, int y) {
-        super(color, x1, y1, x2, y2, x, y);
+    public StatusBar(TextBox[] textBoxes, int x1, int y1, int x2, int y2, int x, int y, Color color, boolean isDynamic) {
+        super(x1, y1, x2, y2, x, y, color, isDynamic);
         this.textBoxes = textBoxes;
     }
 
@@ -27,7 +29,7 @@ public class StatusBar extends DisplayObject {
     }
 
     @Override
-    void draw() {
+    void draw(Graphics2D g2d) {
 
     }
 

@@ -25,11 +25,6 @@ public class Platform extends DisplayObject {
     }
 
     @Override
-    void checkCollision(DisplayObject object) {
-
-    }
-
-    @Override
     void draw(Graphics2D g2d) {
         g2d.setColor(getColor());
         Rectangle rect = new Rectangle(getX1(), getY1(), abs(getX1() - getX2()), abs(getY1() - getY2()));

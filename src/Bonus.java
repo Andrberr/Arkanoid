@@ -18,11 +18,6 @@ public class Bonus extends DisplayObject {
     }
 
     @Override
-    void checkCollision(DisplayObject object) {
-
-    }
-
-    @Override
     void draw(Graphics2D g2d) {
 
     }

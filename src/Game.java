@@ -10,16 +10,18 @@ public class Game {
 
     public static void startGame() throws InterruptedException {
         gameField = new GameField(1170, 720);
-        DisplayObject[] objects = gameField.getDisplayCollection().getObjects();
+        gameDvizh();
+    }
 
+    public static void gameDvizh() throws InterruptedException {
         boolean isFinish = false;
         while (!isFinish) {
-            for (DisplayObject object : objects) {
+            for (DisplayObject object : gameField.getDisplayCollection().getObjects()) {
                 if (object.isDynamic()) {
-                    for (DisplayObject collObject : objects) {
+                    object.move();
+                    for (DisplayObject collObject : gameField.getDisplayCollection().getObjects()) {
                         if (!collObject.equals(object)) object.checkCollision(collObject);
                     }
-                    object.move();
                     if (object instanceof Ball && ((Ball) object).isFinish()) {
                         isFinish = true;
                         break;

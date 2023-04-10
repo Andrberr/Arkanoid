@@ -107,23 +107,14 @@ public abstract class DisplayObject {
         int y3 = object.y1;
         int y4 = object.y2;
 
-        boolean isBottomCollision = y2 >= y3 && y2 <= y4 && x1 <= x4 && x2 >= x3;
-        if (object instanceof Platform) {
-            if (isBottomCollision) {
-                directionY = -directionY;
-            }
-        } else if (object instanceof Block) {
-            if (((Block) object).isAlive()) {
-                if (isBottomCollision || (y1 >= y3 && y1 <= y4 && x1 <= x4 && x2 >= x3)) {
-                    directionY = -directionY;
-                    ((Block) object).setAlive(false);
-                } else
-                if ((y1 <= y4 && y2 >= y3 && x2 >= x3 && x2 <= x4) || (y1 <= y4 && y2 >= y3 && x1 >= x3 && x1 <= x4)) {
-                    directionX = -directionX;
-                    ((Block) object).setAlive(false);
-                }
-            }
+        if ((y2 >= y3 && y2 <= y4 && x1 <= x4 && x2 >= x3) || (y1 >= y3 && y1 <= y4 && x1 <= x4 && x2 >= x3)) {
+            directionY = -directionY;
+            if (object instanceof Block) ((Block) object).setAlive(false);
+        } else if ((y1 <= y4 && y2 >= y3 && x2 >= x3 && x2 <= x4) || (y1 <= y4 && y2 >= y3 && x1 >= x3 && x1 <= x4)) {
+            directionX = -directionX;
+            if (object instanceof Block) ((Block) object).setAlive(false);
         }
+
     }
 
     abstract void draw(Graphics2D g2d);

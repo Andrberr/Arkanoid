@@ -3,6 +3,7 @@ import java.awt.*;
 public class Game {
     private static GameField gameField;
     private static Players players;
+    private static Settings settings;
 
     public static void main(String[] args) throws InterruptedException {
         startGame();
@@ -14,23 +15,37 @@ public class Game {
     }
 
     public static void gameDvizh() throws InterruptedException {
-        boolean isFinish = false;
-        while (!isFinish) {
-            for (DisplayObject object : gameField.getDisplayCollection().getObjects()) {
-                if (object.isDynamic()) {
-                    object.move();
-                    for (DisplayObject collObject : gameField.getDisplayCollection().getObjects()) {
-                        if (!collObject.equals(object)) object.checkCollision(collObject);
-                    }
-                    if (object instanceof Ball && ((Ball) object).isFinish()) {
-                        isFinish = true;
-                        break;
+        while (true) {
+            move();
+            checkCollision();
+            draw();
+            Thread.sleep(8);
+        }
+    }
+
+    public static void move() {
+        for (DisplayObject object : gameField.getDisplayCollection().getObjects()) {
+            if (object.isDynamic()) {
+                object.move();
+            }
+        }
+    }
+
+    public static void checkCollision() {
+        for (DisplayObject object : gameField.getDisplayCollection().getObjects()) {
+            if (object.isDynamic()) {
+                for (DisplayObject collObject : gameField.getDisplayCollection().getObjects()) {
+                    if (!collObject.equals(object)) {
+                        if (!(collObject instanceof Block) || ((Block) collObject).isAlive())
+                            object.checkCollision(collObject);
                     }
                 }
             }
-            gameField.getDisplayCollection().repaint();
-            Thread.sleep(8);
         }
+    }
+
+    public static void draw() {
+        gameField.getDisplayCollection().repaint();
     }
 
     public static void pauseGame() {

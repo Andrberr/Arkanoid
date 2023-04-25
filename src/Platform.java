@@ -1,17 +1,27 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
 import static java.lang.Math.abs;
 
-public class Platform extends DisplayObject {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Platform extends DisplayObject implements Serializable {
     private int speed;
-    private KeyEvent key;
+     KeyEvent key;
 
-    public Platform(int x1, int y1, int x2, int y2, int x, int y, int speed, Color color, boolean isDynamic) {
+    public Platform(int x1, int y1, int x2, int y2, int x, int y, int speed, int color, boolean isDynamic) {
         super(x1, y1, x2, y2, x, y, color, isDynamic);
         this.speed = speed;
     }
 
+    public Platform(){
+
+    }
     public float getSpeed() {
         return speed;
     }
@@ -20,13 +30,10 @@ public class Platform extends DisplayObject {
         this.speed = speed;
     }
 
-    public void setKey(KeyEvent key) {
-        this.key = key;
-    }
 
     @Override
     void draw(Graphics2D g2d) {
-        g2d.setColor(getColor());
+        g2d.setColor(new Color(getColor()));
         Rectangle rect = new Rectangle(getX1(), getY1(), abs(getX1() - getX2()), abs(getY1() - getY2()));
         g2d.fill(rect);
         g2d.setColor(Color.BLACK);
@@ -59,5 +66,29 @@ public class Platform extends DisplayObject {
                 setX(1170 - (getX2() - getX1())/2);
             }
         }
+    }
+
+    @Override
+    public void serializeToTextFile(String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
+            writer.println(getClass().getName());
+            writer.println(getX1() + "," + getY1() + "," + getX2() + "," + getY2() + "," + getX() + "," + getY() + "," + getColor() + "," + speed);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deserializeFromTextFile(String content) {
+        String[] parts = content.split(",");
+        setX1(Integer.parseInt(parts[0]));
+        setY1(Integer.parseInt(parts[1]));
+        setX2(Integer.parseInt(parts[2]));
+        setY2(Integer.parseInt(parts[3]));
+        setX(Integer.parseInt(parts[4]));
+        setY(Integer.parseInt(parts[5]));
+        setColor(Integer.parseInt(parts[6]));
+        speed = Integer.parseInt(parts[7]);
+        setDynamic(true);
     }
 }

@@ -21,6 +21,10 @@ public class DisplayCollection extends JPanel {
         return objects;
     }
 
+    public void setObjects(DisplayObject[] objects) {
+        this.objects = objects;
+    }
+
     void addObjects(){
         int index = 0;
         Blocks blocks = new Blocks();
@@ -28,11 +32,11 @@ public class DisplayCollection extends JPanel {
             objects[index++] = blocks.getBlocks()[i];
         }
 
-        Platform platform = new Platform(width / 2 - 80, height-60, width / 2 + 80, height-40, width / 2, height - 20, 5, new Color(150, 34, 154), true);
+        Platform platform = new Platform(width / 2 - 80, height-60, width / 2 + 80, height-40, width / 2, height - 20, 5, new Color(150, 34, 154).getRGB(), true);
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                platform.setKey(e);
+                platform.key = e;
             }
         });
         objects[index++] = platform;
@@ -51,6 +55,10 @@ public class DisplayCollection extends JPanel {
         for (DisplayObject object:objects) {
             object.draw(g2d);
         }
+        g2d.setColor(Color.DARK_GRAY);
+        g2d.setStroke(new BasicStroke(5));
+        Rectangle rect = new Rectangle(0,0, width, height-20);
+        g2d.draw(rect);
     }
 
     public void removeObjects(DisplayObject displayObject[])

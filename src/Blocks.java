@@ -36,7 +36,7 @@ public class Blocks {
             int rx2 = x2;
             int rx = x;
             for (int j = 0; j < 3; j++) {
-                Block block = new Block(rx1, y1, rx2, y2, rx, y, null, colors[i], false);
+                Block block = new Block(rx1, y1, rx2, y2, rx, y, null, colors[i].getRGB(), false);
                 blocks[index++] = block;
                 rx1 += 90;
                 rx2 += 90;

@@ -1,26 +1,33 @@
-import java.awt.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Game {
     private static GameField gameField;
     private static Players players;
     private static Settings settings;
 
-    public static void main(String[] args) throws InterruptedException {
-        startGame();
+   static Timer timer;
+
+    public Game() {
+        startNewGame();
     }
 
-    public static void startGame() throws InterruptedException {
-        gameField = new GameField(1170, 720);
-        gameDvizh();
+    public static void main(String[] args) {
+        new Game();
     }
 
-    public static void gameDvizh() throws InterruptedException {
-        while (true) {
-            move();
-            checkCollision();
-            draw();
-            Thread.sleep(8);
-        }
+    public static void gameMove() {
+        int delay = 3;
+        timer = new Timer(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                move();
+                checkCollision();
+                draw();
+            }
+        });
+        timer.start();
     }
 
     public static void move() {
@@ -48,8 +55,14 @@ public class Game {
         gameField.getDisplayCollection().repaint();
     }
 
-    public static void pauseGame() {
+    public void startNewGame() {
+        gameField = new GameField(1170, 720, this);
+        gameMove();
+    }
 
+    public void pauseGame(Boolean isPaused) {
+        if (!isPaused) timer.stop();
+        else timer.start();
     }
 
     public static void resumeGame() {
@@ -60,11 +73,16 @@ public class Game {
 
     }
 
-    public static void saveGame() {
-
+    public void saveGame() {
+        ProxySerializationClass proxy = new ProxySerializationClass();
+        proxy.serializeToJsonFile("SaveGame.json", gameField.getDisplayCollection().getObjects(), settings);
+        //proxy.serializeToTextFile("SaveGame.txt", gameField.getDisplayCollection().getObjects(), settings);
     }
 
-    public static void loadGame() {
-
+    public void loadGame()
+    {
+        ProxySerializationClass proxy = new ProxySerializationClass();
+        //gameField.getDisplayCollection().setObjects(proxy.deserializeFromTextFile("SaveGame.txt", settings));
+        gameField.getDisplayCollection().setObjects(proxy.deserializeFromJsonFile("SaveGame.json", settings));
     }
 }

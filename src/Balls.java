@@ -13,7 +13,7 @@ public class Balls {
     }
 
     void addBall(){
-        Ball ball = new Ball(1170 / 2 - 20, 580, 1170 / 2 + 20, 620, 1170 / 2, 600, 2, 10, new Color(206, 18, 46), true);
+        Ball ball = new Ball(1170 / 2 - 20, 580, 1170 / 2 + 20, 620, 1170 / 2, 600, 3, 10, new Color(206, 18, 46).getRGB(), true);
         this.balls[0] = ball;
     }
 }

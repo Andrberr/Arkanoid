@@ -1,18 +1,18 @@
 import java.awt.*;
 
-public abstract class DisplayObject {
+public abstract class DisplayObject implements Serialization{
     private int x1;
     private int y1;
     private int x2;
     private int y2;
     private int x;
     private int y;
-    private Color color;
+    private int color;
     private boolean isDynamic;
     private int directionX;
     private int directionY;
 
-    public DisplayObject(int x1, int y1, int x2, int y2, int x, int y, Color color, boolean isDynamic) {
+    public DisplayObject(int x1, int y1, int x2, int y2, int x, int y, int color, boolean isDynamic) {
         this.color = color;
         this.x1 = x1;
         this.y1 = y1;
@@ -23,6 +23,10 @@ public abstract class DisplayObject {
         this.isDynamic = isDynamic;
         this.directionX = 1;
         this.directionY = 1;
+    }
+
+    public DisplayObject(){
+
     }
 
     public int getX1() {
@@ -73,12 +77,20 @@ public abstract class DisplayObject {
         this.y = y;
     }
 
-    public Color getColor() {
+    public int getColor() {
         return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public boolean isDynamic() {
         return isDynamic;
+    }
+
+    public void setDynamic(boolean dynamic) {
+        isDynamic = dynamic;
     }
 
     public int getDirectionX() {

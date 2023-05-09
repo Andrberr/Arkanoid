@@ -1,16 +1,19 @@
 public class Player {
     private String name;
-    private Balls balls;
-    private Platform platform;
     private PlayerStatistic playerStatistic;
+    private Balls balls;
+    private Platforms platforms;
 
-    public Player(String name, Balls balls, Platform platform, PlayerStatistic playerStatistic) {
+    public Player(String name, PlayerStatistic playerStatistic, Balls balls, Platforms platforms) {
         this.name = name;
-        this.balls = balls;
-        this.platform = platform;
         this.playerStatistic = playerStatistic;
+        this.balls = balls;
+        this.platforms = platforms;
     }
 
+    public boolean isPlayerWin(){
+        return false;
+    }
 
     public String getName() {
         return name;
@@ -20,27 +23,27 @@ public class Player {
         this.name = name;
     }
 
-    public Balls getBalls() {
-        return balls;
-    }
-
-    public void setBalls(Balls balls) {
-        this.balls = balls;
-    }
-
-    public Platform getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(Platform platform) {
-        this.platform = platform;
-    }
-
-    public PlayerStatistic getPlayerStatistic() {
+    public PlayerStatistic getGamePlayStatistic() {
         return playerStatistic;
     }
 
-    public void setPlayerStatistic(PlayerStatistic playerStatistic) {
+    public void setGamePlayStatistic(PlayerStatistic playerStatistic) {
         this.playerStatistic = playerStatistic;
+    }
+
+    public Balls getGameBalls() {
+        return balls;
+    }
+
+    public void setGameBalls(Balls balls) {
+        this.balls = balls;
+    }
+
+    public Platforms getBallDesks() {
+        return platforms;
+    }
+
+    public void setBallDesks(Platforms platforms) {
+        this.platforms = platforms;
     }
 }

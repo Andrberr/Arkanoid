@@ -1,24 +1,13 @@
 public class PlayerStatistic {
-    private int score = 0;
-    private int time = 0;
+    private int score;
+    private int highScore;
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
+    public PlayerStatistic(int score, int highScore) {
         this.score = score;
+        this.highScore = highScore;
     }
 
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
-    }
-
-    void updateStatistic(){
+    public void updateStatistic(){
 
     }
 }

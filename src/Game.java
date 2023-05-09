@@ -1,88 +1,116 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Game {
-    private static GameField gameField;
-    private static Players players;
-    private static Settings settings;
+    static GameField gameField;
+    Players players;
+    static Menu menu;
+    Settings settings;
+    static Timer timer;
 
-   static Timer timer;
-
-    public Game() {
-        startNewGame();
+    public Game() throws InterruptedException {
+        settings = new Settings(this);
+        gameField = new GameField(this);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new Game();
     }
 
-    public static void gameMove() {
+    public static void gameLoop() throws InterruptedException {
         int delay = 3;
         timer = new Timer(delay, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 move();
                 checkCollision();
-                draw();
+                try {
+                    draw();
+                } catch (InterruptedException ex) {
+                    System.out.println(e.toString());
+                }
             }
         });
         timer.start();
     }
 
-    public static void move() {
-        for (DisplayObject object : gameField.getDisplayCollection().getObjects()) {
-            if (object.isDynamic()) {
-                object.move();
+    private static void move() {
+        for (GameFigure figure : gameField.getDisplayFigures().getFigures()) {
+            if (!figure.isStatic) {
+                if (!figure.figureMove()) {
+                }
             }
         }
     }
 
-    public static void checkCollision() {
-        for (DisplayObject object : gameField.getDisplayCollection().getObjects()) {
-            if (object.isDynamic()) {
-                for (DisplayObject collObject : gameField.getDisplayCollection().getObjects()) {
-                    if (!collObject.equals(object)) {
-                        if (!(collObject instanceof Block) || ((Block) collObject).isAlive())
-                            object.checkCollision(collObject);
+    private static void checkCollision() {
+        for (GameFigure figure : gameField.getDisplayFigures().getFigures()) {
+            if (!figure.isStatic) {
+                for (GameFigure anotherFigure : gameField.getDisplayFigures().getFigures()) {
+                    if (!figure.equals(anotherFigure)) {
+                        figure.isCollides(anotherFigure);
                     }
                 }
             }
         }
     }
 
-    public static void draw() {
-        gameField.getDisplayCollection().repaint();
+    private static void draw() throws InterruptedException {
+        gameField.getDisplayFigures().repaint();
     }
 
-    public void startNewGame() {
-        gameField = new GameField(1170, 720, this);
-        gameMove();
+    public void startGame() throws InterruptedException {
+        gameField = new GameField(this);
     }
 
-    public void pauseGame(Boolean isPaused) {
-        if (!isPaused) timer.stop();
-        else timer.start();
+    public void startNewGame() throws InterruptedException {
+        timer.stop();
+        try {
+            startGame();
+            gameLoop();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    public static void resumeGame() {
-
+    public void pauseGame() {
+        timer.stop();
     }
 
-    public static void finishGame() {
-
+    public void resumeGame() throws InterruptedException {
+        if (timer != null) timer.start();
+        else gameLoop();
     }
 
-    public void saveGame() {
-        ProxySerializationClass proxy = new ProxySerializationClass();
-        proxy.serializeToJsonFile("SaveGame.json", gameField.getDisplayCollection().getObjects(), settings);
-        //proxy.serializeToTextFile("SaveGame.txt", gameField.getDisplayCollection().getObjects(), settings);
+    public void loadFromFile() throws InterruptedException {
+        if (gameField == null)
+            gameField = new GameField(this);
+        ProxyClass proxy = new ProxyClass();
+        //proxy.deserializeFromJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings);
+
+        proxy.deserializeFields("save_game.txt", gameField.displayObjects.getFigures());
+        for (GameFigure figure : gameField.displayObjects.getFigures()) {
+            if (figure instanceof Platform) {
+                gameField.displayObjects.currentDesk = (Platform) figure;
+                break;
+            }
+        }
     }
 
-    public void loadGame()
-    {
-        ProxySerializationClass proxy = new ProxySerializationClass();
-        //gameField.getDisplayCollection().setObjects(proxy.deserializeFromTextFile("SaveGame.txt", settings));
-        gameField.getDisplayCollection().setObjects(proxy.deserializeFromJsonFile("SaveGame.json", settings));
+    public void saveInFile() throws InterruptedException, NoSuchFieldException, IllegalAccessException {
+        ProxyClass proxy = new ProxyClass();
+        try (PrintWriter writer = new PrintWriter(new FileWriter("save_game.txt", false))) {
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (GameFigure figure: gameField.displayObjects.getFigures()){
+            proxy.serializeField("save_game.txt", figure.createFieldObject());
+        }
+        //proxy.serializeToJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings);
     }
 }

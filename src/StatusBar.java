@@ -1,46 +1,22 @@
-import java.awt.*;
-import java.io.Serializable;
-
-public class StatusBar extends DisplayObject implements Serializable {
-    private TextBox[] textBoxes;
-    private Button menuButton;
+public class StatusBar {
+    private TextBox playerNameBox;
+    private TextBox timeBox;
+    private TextBox scoreText;
     private Menu menu;
+    private Button button;
     private GameStatistic gameStatistic;
 
-    public StatusBar(TextBox[] textBoxes, int x1, int y1, int x2, int y2, int x, int y, int color, boolean isDynamic) {
-        super(x1, y1, x2, y2, x, y, color, isDynamic);
-        this.textBoxes = textBoxes;
+    public StatusBar(TextBox playerNameBox, TextBox timeBox, TextBox scoreText) {
+        this.playerNameBox = playerNameBox;
+        this.timeBox = timeBox;
+        this.scoreText = scoreText;
     }
 
-    public GameStatistic getGameStatistic() {
-        return gameStatistic;
-    }
-
-    void drawBar() {
+    public void drawBar(){
 
     }
 
-    void showMenu() {
-
-    }
-
-    @Override
-    void draw(Graphics2D g2d) {
-
-    }
-
-    @Override
-    void move() {
-
-    }
-
-    @Override
-    public void serializeToTextFile(String filename) {
-
-    }
-
-    @Override
-    public void deserializeFromTextFile(String filename) {
+    public void  showMenu(){
 
     }
 }

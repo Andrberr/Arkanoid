@@ -1,85 +1,126 @@
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.awt.*;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.lang.reflect.Field;
 
 import static java.lang.Math.abs;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class Block extends DisplayObject implements Serializable {
-    private Bonuses bonuses;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Block extends GameFigure {
+    private Boolean isHitted = false;
 
-    public boolean isAlive() {
-        return isAlive;
+    public Block(int startX, int startY, int endX, int endY, int X, int Y, int color, int drawAmount, Boolean isStatic, int dx, int dy) {
+        super(startX, startY, endX, endY, X, Y, color, drawAmount, isStatic, dx, dy);
     }
 
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
-    private boolean isAlive;
-
-    public Block(int x1, int y1, int x2, int y2, int x, int y, Bonuses bonuses, int color, boolean isDynamic) {
-        super(x1, y1, x2, y2, x, y, color, isDynamic);
-        this.bonuses = bonuses;
-        this.isAlive = true;
-    }
-
-    public Block(){
+    Block() {
 
     }
 
-    public Bonuses getBonuses() {
-        return bonuses;
-    }
 
-    public void setBonuses(Bonuses bonuses) {
-        this.bonuses = bonuses;
+    @Override
+    boolean figureMove() {
+        return false;
     }
 
     @Override
     void draw(Graphics2D g2d) {
-        if (isAlive) {
-            g2d.setColor(new Color(getColor()));
-            Rectangle rect = new Rectangle(getX1(), getY1(), abs(getX1() - getX2()), abs(getY1() - getY2()));
+        if (!isHitted) {
+            g2d.setColor(new Color(color));
+            Rectangle rect = new Rectangle(getStartX(), startY, abs(getStartX() - endX), abs(startY - endY));
             g2d.fill(rect);
             g2d.setColor(Color.BLACK);
             g2d.draw(rect);
+        } else {
+            setStartX(0);
+            endX = 0;
+            startY = 0;
+            endY = 0;
         }
     }
 
-    @Override
-    void move() {
-
+    public void setHitted(Boolean hitted) {
+        isHitted = hitted;
     }
 
     @Override
-    public void serializeToTextFile(String filename) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
-            writer.println(getClass().getName());
-            writer.println(getX1() + "," + getY1() + "," + getX2() + "," + getY2() + "," + getX() + "," + getY() + "," + getColor() + "," + isAlive());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Object createFieldObject() throws IllegalAccessException, NoSuchFieldException {
+        Field field = this.getClass().getSuperclass().getDeclaredField("startX");
+        field.setAccessible(true);
+        field.set(this, this.getStartX());
+        field = super.getClass().getSuperclass().getDeclaredField("startY");
+        field.setAccessible(true);
+        field.set(this, this.startY);
+        field = this.getClass().getSuperclass().getDeclaredField("endX");
+        field.setAccessible(true);
+        field.set(this, this.endX);
+        field = this.getClass().getSuperclass().getDeclaredField("endY");
+        field.setAccessible(true);
+        field.set(this, this.endY);
+        field = this.getClass().getSuperclass().getDeclaredField("X");
+        field.setAccessible(true);
+        field.set(this, this.X);
+        field = this.getClass().getSuperclass().getDeclaredField("Y");
+        field.setAccessible(true);
+        field.set(this, this.Y);
+        field = this.getClass().getSuperclass().getDeclaredField("color");
+        field.setAccessible(true);
+        field.set(this, this.color);
+        field = this.getClass().getSuperclass().getDeclaredField("drawAmount");
+        field.setAccessible(true);
+        field.set(this, this.drawAmount);
+        field = this.getClass().getSuperclass().getDeclaredField("dx");
+        field.setAccessible(true);
+        field.set(this, this.dx);
+        field = this.getClass().getSuperclass().getDeclaredField("dy");
+        field.setAccessible(true);
+        field.set(this, this.dy);
+        field = this.getClass().getSuperclass().getDeclaredField("isStatic");
+        field.setAccessible(true);
+        field.set(this, this.isStatic);
+        field = this.getClass().getDeclaredField("isHitted");
+        field.setAccessible(true);
+        field.set(this, this.isHitted);
+        return this;
     }
 
     @Override
-    public void deserializeFromTextFile(String content) {
-        String[] parts = content.split(",");
-        setX1(Integer.parseInt(parts[0]));
-        setY1(Integer.parseInt(parts[1]));
-        setX2(Integer.parseInt(parts[2]));
-        setY2(Integer.parseInt(parts[3]));
-        setX(Integer.parseInt(parts[4]));
-        setY(Integer.parseInt(parts[5]));
-        setColor(Integer.parseInt(parts[6]));
-        setAlive(Boolean.parseBoolean(parts[7]));
-        setBonuses(null);
-        setDynamic(false);
+    public void deserializeFromField() throws NoSuchFieldException, IllegalAccessException {
+        Field field = this.getClass().getSuperclass().getDeclaredField("startX");
+        field.setAccessible(true);
+        setStartX((Integer) field.get(this));
+        field = super.getClass().getSuperclass().getDeclaredField("startY");
+        field.setAccessible(true);
+        startY = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("endX");
+        field.setAccessible(true);
+        endX = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("endY");
+        field.setAccessible(true);
+        endY = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("X");
+        field.setAccessible(true);
+        X = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("Y");
+        field.setAccessible(true);
+        Y = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("color");
+        field.setAccessible(true);
+        color = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("drawAmount");
+        field.setAccessible(true);
+        drawAmount = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("dx");
+        field.setAccessible(true);
+        dx = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("dy");
+        field.setAccessible(true);
+        dy = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("isStatic");
+        field.setAccessible(true);
+        isStatic = (Boolean) field.get(this);
+        field = this.getClass().getDeclaredField("isHitted");
+        field.setAccessible(true);
+        isHitted = (Boolean) field.get(this);
     }
 }

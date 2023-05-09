@@ -1,91 +1,117 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.awt.*;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.lang.reflect.Field;
 
 import static java.lang.Math.abs;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Ball extends DisplayObject implements Serializable {
-    private int speed;
-    private int radius;
+public class Ball extends GameFigure {
 
-    public Ball(int x1, int y1, int x2, int y2, int x, int y, int speed, int radius, int color, boolean isDynamic) {
-        super(x1, y1, x2, y2, x, y, color, isDynamic);
-        this.speed = speed;
-        this.radius = radius;
-        setDirectionX(-1);
-        setDirectionY(-1);
+    public Ball(int startX, int startY, int endX, int endY, int centerX, int centerY, int color, int drawAmount, Boolean isStatic, int dx, int dy) {
+        super(startX, startY, endX, endY, centerX, centerY, color, drawAmount, isStatic, dx, dy);
     }
-
-    public Ball() {
+    Ball(){
 
     }
 
-    public int getSpeed() {
-        return speed;
+    @Override
+    boolean figureMove() {
+        if (startY > 900) return false;
+        if (endY < 0) dy = -dy;
+        if (getStartX() < 0 || endX > 1000) dx = -dx;
+        setStartX(getStartX() + dx);
+        endX = endX + dx;
+        startY = startY - dy;
+        endY = endY - dy;
+        if (dx != 0) dx = drawAmount * dx / abs(dx);
+        if (dy != 0) dy = drawAmount * dy / abs(dy);
+        return true;
     }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getRadius() {
-        return radius;
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
-    }
-
 
     @Override
     void draw(Graphics2D g2d) {
-        g2d.setColor(new Color(getColor()));
-        g2d.fillOval(getX1(), getY1(), abs(getX1() - getX2()), abs(getY1() - getY2()));
+        g2d.setColor(new Color(color));
+        g2d.fillOval(getStartX()-1, startY-1, abs(getStartX() - endX-1), abs(startY - endY-1));
     }
 
     @Override
-    void move() {
-        if (getX1() <= 0 || getX2() >= 1170) setDirectionX(-getDirectionX());
-        if (getY1() <= 0) setDirectionY(-getDirectionY());
-        double dx = getDirectionX() * getSpeed() * Math.cos(Math.PI / 5) * 2;
-        double dy = getDirectionY() * getSpeed() * Math.sin(Math.PI / 5) * 2;
-        setX1(getX1() + (int) dx);
-        setX2(getX2() + (int) dx);
-        setX(getX() + (int) dx);
-        setY1(getY1() + (int) dy);
-        setY2(getY2() + (int) dy);
-        setY(getY() + (int) dy);
+    Object createFieldObject() throws IllegalAccessException, NoSuchFieldException {
+        Field field = this.getClass().getSuperclass().getDeclaredField("startX");
+        field.setAccessible(true);
+        field.set(this, this.getStartX());
+        field = super.getClass().getSuperclass().getDeclaredField("startY");
+        field.setAccessible(true);
+        field.set(this, this.startY);
+        field = this.getClass().getSuperclass().getDeclaredField("endX");
+        field.setAccessible(true);
+        field.set(this, this.endX);
+        field = this.getClass().getSuperclass().getDeclaredField("endY");
+        field.setAccessible(true);
+        field.set(this, this.endY);
+        field = this.getClass().getSuperclass().getDeclaredField("X");
+        field.setAccessible(true);
+        field.set(this, this.X);
+        field = this.getClass().getSuperclass().getDeclaredField("Y");
+        field.setAccessible(true);
+        field.set(this, this.Y);
+        field = this.getClass().getSuperclass().getDeclaredField("color");
+        field.setAccessible(true);
+        field.set(this, this.color);
+        field = this.getClass().getSuperclass().getDeclaredField("drawAmount");
+        field.setAccessible(true);
+        field.set(this, this.drawAmount);
+        field = this.getClass().getSuperclass().getDeclaredField("dx");
+        field.setAccessible(true);
+        field.set(this, this.dx);
+        field = this.getClass().getSuperclass().getDeclaredField("dy");
+        field.setAccessible(true);
+        field.set(this, this.dy);
+        field = this.getClass().getSuperclass().getDeclaredField("isStatic");
+        field.setAccessible(true);
+        field.set(this, this.isStatic);
+        return this;
     }
 
     @Override
-    public void serializeToTextFile(String filename) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
-            writer.println(getClass().getName());
-            writer.println(getX1() + "," + getY1() + "," + getX2() + "," + getY2() + "," + getX() + "," + getY() + "," + getColor() + "," + speed + "," + radius + "," + getDirectionX() + "," + getDirectionY());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void deserializeFromField() throws NoSuchFieldException, IllegalAccessException {
+        Field field = this.getClass().getSuperclass().getDeclaredField("startX");
+        field.setAccessible(true);
+        setStartX((Integer) field.get(this));
+        field = super.getClass().getSuperclass().getDeclaredField("startY");
+        field.setAccessible(true);
+        startY = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("endX");
+        field.setAccessible(true);
+        endX = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("endY");
+        field.setAccessible(true);
+        endY = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("X");
+        field.setAccessible(true);
+        X = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("Y");
+        field.setAccessible(true);
+        Y = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("color");
+        field.setAccessible(true);
+        color = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("drawAmount");
+        field.setAccessible(true);
+        drawAmount = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("dx");
+        field.setAccessible(true);
+        dx = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("dy");
+        field.setAccessible(true);
+        dy = (int) field.get(this);
+        field = this.getClass().getSuperclass().getDeclaredField("isStatic");
+        field.setAccessible(true);
+        isStatic = (Boolean) field.get(this);
     }
 
-    @Override
-    public void deserializeFromTextFile(String content) {
-        String[] parts = content.split(",");
-        setX1(Integer.parseInt(parts[0]));
-        setY1(Integer.parseInt(parts[1]));
-        setX2(Integer.parseInt(parts[2]));
-        setY2(Integer.parseInt(parts[3]));
-        setX(Integer.parseInt(parts[4]));
-        setY(Integer.parseInt(parts[5]));
-        setColor(Integer.parseInt(parts[6]));
-        speed = Integer.parseInt(parts[7]);
-        radius = Integer.parseInt(parts[8]);
-        setDirectionX(Integer.parseInt(parts[9]));
-        setDirectionY(Integer.parseInt(parts[10]));
-        setDynamic(true);
+    public void setSpeed(int speed) {
+        drawAmount += 1;
     }
+
 }

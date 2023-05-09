@@ -1,12 +1,20 @@
+import java.util.ArrayList;
+
 public class Bonuses {
-    private Bonus[] bonuses;
-    Bonus getBonus(int bonusNum) {
+    private ArrayList<Bonus> bonuses;
+
+    public Bonus getBonus(int index){
         return null;
     }
-    void addBonus(Bonus bonus){
+
+    public void addBonus(Bonus bonus) {
 
     }
-    void removeBonus(Bonus bonus){
+    public void removeBonus(Bonus bonus) {
+
+    }
+
+    public void changeVisibility(Platform platform){
 
     }
 }

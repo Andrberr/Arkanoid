@@ -8,7 +8,7 @@ public class Platforms {
 
     public Platforms() {
         platforms = new ArrayList<>();
-        Platform platform = new Platform(400, 680, 560, 695, 480, 687, new Color(36, 53, 164).getRGB(), 3, false, 5, 0);
+        Platform platform = new Platform(450, 660, 610, 675, 530, 667, new Color(36, 53, 164).getRGB(), 3, false, 5, 0);
         addDesk(platform);
     }
 

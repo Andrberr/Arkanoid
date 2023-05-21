@@ -44,6 +44,7 @@ public abstract class GameFigure {
         int x4 = gameFigure.endX;
         int y3 = gameFigure.startY;
         int y4 = gameFigure.endY;
+        boolean withBlock = false;
         boolean res = (x2 >= x3) && (x1 <= x4) && (y2 >= y3) && (y1 <= y4);
         if (res) {
             dx = (dx + (int) (random() * 5)) * (-1);
@@ -51,9 +52,10 @@ public abstract class GameFigure {
             if (gameFigure.getClass().toString().equals("class Block")) {
                 Block block = (Block) gameFigure;
                 block.setHitted(true);
+                withBlock = true;
             }
         }
-        return res;
+        return withBlock;
     }
 
     abstract void draw(Graphics2D g2d);
@@ -145,8 +147,4 @@ public abstract class GameFigure {
     public void setStatic(Boolean isStatic) {
         this.isStatic = isStatic;
     }
-
-    abstract Object createFieldObject() throws IllegalAccessException, NoSuchFieldException;
-
-    abstract void deserializeFromField() throws NoSuchFieldException, IllegalAccessException;
 }

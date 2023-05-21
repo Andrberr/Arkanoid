@@ -1,14 +1,26 @@
+import java.io.Serializable;
+import java.lang.reflect.Field;
 
-public class Settings {
-    private int volume;
-    private int brightness;
-    private int difficulty;
-    SettingsFrame settingsFrame;
-    Game game;
+public class Settings implements Serializable {
+    int volume;
+    int brightness;
+    int difficulty;
 
-    Settings(Game game) {
-        this.game = game;
+    String screen;
+
+    public String getScreen() {
+        return screen;
     }
+
+    public void setScreen(String screen) {
+        this.screen = screen;
+    }
+
+    transient SettingsFrame settingsFrame;
+
+    Settings() {
+    }
+
 
     public int getBrightness() {
         return brightness;
@@ -34,4 +46,11 @@ public class Settings {
         this.volume = volume;
     }
 
+    public SettingsFrame getSettingsFrame() {
+        return settingsFrame;
+    }
+
+    public void setSettingsFrame(SettingsFrame settingsFrame) {
+        this.settingsFrame = settingsFrame;
+    }
 }

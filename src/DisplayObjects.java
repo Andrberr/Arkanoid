@@ -8,12 +8,16 @@ public class DisplayObjects extends JPanel {
     private ArrayList<GameFigure> figures;
     Platform currentDesk;
     int currentIndex = 0;
+    double koef;
+    int width;
+    int height;
 
-    public DisplayObjects() {
-//        int figuresAmount = 74;
-//        figures = new GameFigure[figuresAmount];
+    public DisplayObjects(int width, int height, double koef) {
+        this.width = width;
+        this.height = height;
+        this.koef = koef;
         figures = new ArrayList<GameFigure>();
-        Blocks blocks = new Blocks();
+        Blocks blocks = new Blocks(koef);
         figures.addAll(blocks.getGameBlocks());
         addKey();
         Platforms desks = new Platforms();
@@ -42,6 +46,9 @@ public class DisplayObjects extends JPanel {
         for (GameFigure figure : figures) {
             figure.draw(g2d);
         }
+        g2d.setColor(Color.BLACK);
+        g2d.drawLine(0, height, width, height);
+        g2d.drawLine(width, 0, width, height);
     }
 
     public void addFigure(ArrayList<GameFigure> figures) {

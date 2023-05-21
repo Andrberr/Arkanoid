@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 public class Game {
     static GameField gameField;
     Players players;
-    static Menu menu;
     Settings settings;
     static Timer timer;
     static long currTime = 0L;
@@ -39,8 +38,8 @@ public class Game {
                 }
 
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                if (elapsedTime >= 1000L){
-                    currTime+=1000L;
+                if (elapsedTime >= 1000L) {
+                    currTime += 1000L;
                     gameField.formatTime(currTime);
                     startTime = System.currentTimeMillis();
                 }
@@ -76,7 +75,7 @@ public class Game {
     }
 
     public void startGame(int width, int height) throws InterruptedException {
-        if (gameField!=null) {
+        if (gameField != null) {
             gameField.close();
         }
         gameField = new GameField(this, width, height);
@@ -84,6 +83,7 @@ public class Game {
 
     public void startNewGame(int width, int height) throws InterruptedException {
         try {
+            currTime = 0L;
             startGame(width, height);
             gameLoop();
         } catch (InterruptedException ex) {
@@ -117,7 +117,7 @@ public class Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (GameFigure figure: gameField.displayObjects.getFigures()){
+        for (GameFigure figure : gameField.displayObjects.getFigures()) {
             proxy.serializeField("save_game.txt", figure);
         }
         proxy.serializeField("save_game.txt", settings);

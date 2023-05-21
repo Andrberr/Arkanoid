@@ -6,9 +6,9 @@ public class Platforms {
     private ArrayList<Platform> platforms;
     private int currentIndex = 0;
 
-    public Platforms() {
+    public Platforms(double koef, int width, int height) {
         platforms = new ArrayList<>();
-        Platform platform = new Platform(450, 660, 610, 675, 530, 667, new Color(36, 53, 164).getRGB(), 3, false, 5, 0);
+        Platform platform = new Platform((int) (450 * koef), (int) (660 * koef), (int) (610 * koef), (int) (675 * koef), (int) (530 * koef), (int) (667 * koef), new Color(36, 53, 164).getRGB(), 3, false, 5, 0, width, height);
         addDesk(platform);
     }
 

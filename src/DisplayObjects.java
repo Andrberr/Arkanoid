@@ -20,10 +20,10 @@ public class DisplayObjects extends JPanel {
         Blocks blocks = new Blocks(koef);
         figures.addAll(blocks.getGameBlocks());
         addKey();
-        Platforms desks = new Platforms();
+        Platforms desks = new Platforms(koef, width, height);
         currentDesk = desks.getDesk(0);
         figures.addAll(desks.getBallDesks());
-        Balls balls = new Balls();
+        Balls balls = new Balls(koef, width, height);
         figures.addAll(balls.getGameBalls());
         setFocusable(true);
         requestFocusInWindow();

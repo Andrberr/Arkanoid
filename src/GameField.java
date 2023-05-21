@@ -7,9 +7,7 @@ import java.util.Date;
 
 public class GameField extends JFrame {
     DisplayObjects displayObjects;
-    GameStatistic gameStatistic;
-    int background;
-    GameMessageBox gameMessageBox;
+
     Game game;
 
     int width;
@@ -34,14 +32,21 @@ public class GameField extends JFrame {
         this.height = height;
 
         switch (width) {
-            case 1100:{
+            case 1100 -> {
                 koef = 1;
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
-                break;
             }
-            case 770: {
+            case 770 -> {
                 koef = 0.7;
-                break;
+            }
+            case 720 -> {
+                koef = 0.65;
+            }
+            case 620 -> {
+                koef = 0.56;
+            }
+            case 580 ->{
+                koef = 0.52;
             }
         }
 
@@ -149,16 +154,14 @@ public class GameField extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!resumeGameButton.isVisible() && !flag) {
-                    Game.timer.stop();
-
-                }
                 resumeGameButton.setVisible(!resumeGameButton.isVisible());
                 settingsGameButton.setVisible(!settingsGameButton.isVisible());
                 loadGameButton.setVisible(!loadGameButton.isVisible());
                 saveGameButton.setVisible(!saveGameButton.isVisible());
                 exitButton.setVisible(!exitButton.isVisible());
-                flag = false;
+                if (resumeGameButton.isVisible()) {
+                   if (Game.timer != null) Game.timer.stop();
+                }
             }
         });
 
@@ -206,10 +209,10 @@ public class GameField extends JFrame {
         menuPanel.setBackground(new Color(171, 149, 39));
         getContentPane().add(menuPanel, BorderLayout.EAST);
 
-        getContentPane().getComponent(1).requestFocus();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(width, height);
         setVisible(true);
+        getContentPane().getComponent(1).requestFocus();
     }
 
     void setProgressValue() {
@@ -236,6 +239,8 @@ public class GameField extends JFrame {
     }
 
     public void close() {
+        getContentPane().removeAll();
         setVisible(false);
+        flag = true;
     }
 }

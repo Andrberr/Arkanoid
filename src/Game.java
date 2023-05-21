@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 
 public class Game {
     static GameField gameField;
@@ -11,14 +12,29 @@ public class Game {
     Settings settings;
     static Timer timer;
     static long currTime = 0L;
+    String name = "";
+    String surname = "";
 
 
-    public Game() throws InterruptedException {
-        settings = new Settings();
-        gameField = new GameField(this, 1100, 685);
+    public Game() {
+        PlayerForm form = new PlayerForm();
+        form.submitButton.addActionListener(e -> {
+            if (!form.nameField.getText().equals("") && !form.surnameField.getText().equals("")) {
+                settings = new Settings();
+                settings.screen = 0;
+                name = form.nameField.getText();
+                surname = form.surnameField.getText();
+                form.dispose();
+                try {
+                    gameField = new GameField(this, 1100, 685, name, surname);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         new Game();
     }
 
@@ -45,7 +61,6 @@ public class Game {
                 }
             }
         });
-        timer.start();
     }
 
     private static void move() {
@@ -78,7 +93,7 @@ public class Game {
         if (gameField != null) {
             gameField.close();
         }
-        gameField = new GameField(this, width, height);
+        gameField = new GameField(this, width, height, name, surname);
     }
 
     public void startNewGame(int width, int height) throws InterruptedException {
@@ -93,15 +108,18 @@ public class Game {
 
     public void resumeGame() throws InterruptedException {
         if (timer != null) timer.start();
-        else gameLoop();
+        else {
+            gameLoop();
+            timer.start();
+        }
     }
 
     public void loadFromFile() throws InterruptedException {
         if (gameField == null)
-            gameField = new GameField(this, 1100, 685);
+            gameField = new GameField(this, 1100, 685, name, surname);
         ProxyClass proxy = new ProxyClass();
-        //proxy.deserializeFromJsonFile("SaveGame.json", gameField.displayObjects.getFigures(), settings);
-        proxy.deserializeFields("save_game.txt", gameField.displayObjects.getFigures());
+        proxy.deserializeFromJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings);
+        //proxy.deserializeFields("save_game.txt", gameField.displayObjects.getFigures());
         for (GameFigure figure : gameField.displayObjects.getFigures()) {
             if (figure instanceof Platform) {
                 gameField.displayObjects.currentDesk = (Platform) figure;
@@ -117,16 +135,14 @@ public class Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (GameFigure figure : gameField.displayObjects.getFigures()) {
-            proxy.serializeField("save_game.txt", figure);
-        }
-        proxy.serializeField("save_game.txt", settings);
-        // proxy.serializeToJsonFile("SaveGame.json", gameField.displayObjects.getFigures(), settings);
+//        for (GameFigure figure : gameField.displayObjects.getFigures()) {
+//            proxy.serializeField("save_game.txt", figure);
+//        }
+//        proxy.serializeField("save_game.txt", settings);
+         proxy.serializeToJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings);
     }
 
     public void settingsGame() throws InterruptedException {
         settings.setSettingsFrame(new SettingsFrame(settings, this));
     }
-
-
 }

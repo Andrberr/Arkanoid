@@ -18,6 +18,11 @@ public class GameField extends JFrame {
 
     int progressValue = 0;
 
+    int textSize = 0;
+    int spacing = 0;
+
+    StatusBar bar;
+
 
     JProgressBar progressBar;
     JButton button;
@@ -26,7 +31,7 @@ public class GameField extends JFrame {
     JTextField textField3;
     JTextField textField4;
 
-    public GameField(Game game, int width, int height) throws InterruptedException {
+    public GameField(Game game, int width, int height, String name, String surname) throws InterruptedException {
         this.game = game;
         this.width = width;
         this.height = height;
@@ -34,19 +39,29 @@ public class GameField extends JFrame {
         switch (width) {
             case 1100 -> {
                 koef = 1;
+                textSize = 18;
+                spacing = 30;
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
             }
             case 770 -> {
                 koef = 0.7;
+                textSize = 17;
+                spacing = 22;
             }
             case 720 -> {
                 koef = 0.65;
+                textSize = 16;
+                spacing = 20;
             }
             case 620 -> {
                 koef = 0.56;
+                textSize = 14;
+                spacing = 12;
             }
-            case 580 ->{
+            case 580 -> {
                 koef = 0.52;
+                textSize = 12;
+                spacing = 8;
             }
         }
 
@@ -109,7 +124,7 @@ public class GameField extends JFrame {
                         @Override
                         public void run() {
                             long time = System.currentTimeMillis();
-                            while (System.currentTimeMillis() < time + 10) {
+                            while (System.currentTimeMillis() < time + 20L) {
                             }
                             Game.timer.stop();
                         }
@@ -160,43 +175,44 @@ public class GameField extends JFrame {
                 saveGameButton.setVisible(!saveGameButton.isVisible());
                 exitButton.setVisible(!exitButton.isVisible());
                 if (resumeGameButton.isVisible()) {
-                   if (Game.timer != null) Game.timer.stop();
+                    if (Game.timer != null) Game.timer.stop();
                 }
             }
         });
 
         textField1 = new JTextField();
         textField1.setEditable(false);
-        textField1.setText("Name: Andrey");
+        textField1.setText("Name: " + name);
         textField2 = new JTextField();
         textField2.setEditable(false);
-        textField2.setText("Surname: Beryozkin");
+        textField2.setText("Surname: " + surname);
         textField3 = new JTextField();
         textField3.setEditable(false);
         textField3.setText("Score: 0");
         textField4 = new JTextField();
         textField4.setEditable(false);
         textField4.setText("Time: 00:00");
-        Font font = new Font(textField1.getFont().getName(), Font.PLAIN, 18);
+        bar = new StatusBar(progressValue, name, surname, progressValue / 2, "00:00");
+        Font font = new Font(textField1.getFont().getName(), Font.PLAIN, textSize);
         textField1.setFont(font);
-        font = new Font(textField2.getFont().getName(), Font.PLAIN, 18);
+        font = new Font(textField2.getFont().getName(), Font.PLAIN, textSize);
         textField2.setFont(font);
-        font = new Font(textField3.getFont().getName(), Font.PLAIN, 18);
+        font = new Font(textField3.getFont().getName(), Font.PLAIN, textSize);
         textField3.setFont(font);
-        font = new Font(textField4.getFont().getName(), Font.PLAIN, 18);
+        font = new Font(textField4.getFont().getName(), Font.PLAIN, textSize);
         textField4.setFont(font);
 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.add(progressBar);
-        panel.add(Box.createHorizontalStrut(30)); // Add horizontal spacing
+        panel.add(Box.createHorizontalStrut(spacing)); // Add horizontal spacing
         panel.add(button);
-        panel.add(Box.createHorizontalStrut(30)); // Add horizontal spacing
+        panel.add(Box.createHorizontalStrut(spacing)); // Add horizontal spacing
         panel.add(textField1);
-        panel.add(Box.createHorizontalStrut(30)); // Add horizontal spacing
+        panel.add(Box.createHorizontalStrut(spacing)); // Add horizontal spacing
         panel.add(textField2);
-        panel.add(Box.createHorizontalStrut(30)); // Add horizontal spacing
+        panel.add(Box.createHorizontalStrut(spacing)); // Add horizontal spacing
         panel.add(textField3);
-        panel.add(Box.createHorizontalStrut(30)); // Add horizontal spacing
+        panel.add(Box.createHorizontalStrut(spacing)); // Add horizontal spacing
         panel.add(textField4);
 
         getContentPane().setLayout(new BorderLayout());
@@ -218,7 +234,8 @@ public class GameField extends JFrame {
     void setProgressValue() {
         progressValue += 2;
         progressBar.setValue(progressValue);
-
+        bar.setPercent(progressValue);
+        bar.setScore(progressValue / 2);
         textField3.setText("Score: " + progressValue / 2);
     }
 
@@ -227,6 +244,7 @@ public class GameField extends JFrame {
         Date date = new Date(elapsedTime);
         String time = format.format(date);
         textField4.setText("Time: " + time);
+        bar.setTime(time);
     }
 
 

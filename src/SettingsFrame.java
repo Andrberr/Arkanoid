@@ -24,7 +24,7 @@ public class SettingsFrame extends JFrame {
         applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                settings.setScreen(screenComboBox.getItemAt(screenComboBox.getSelectedIndex()));
+                settings.setScreen(screenComboBox.getSelectedIndex());
 
                 int w = 0;
                 int h = 0;

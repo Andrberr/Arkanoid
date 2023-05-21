@@ -131,9 +131,8 @@ public class ProxyClass {
         try {
             JsonNode rootNode = mapper.readTree(new File(filename));
             JsonNode settingsNode = rootNode.get("settings");
-            settings.setVolume(settingsNode.get("volume").asInt());
-            settings.setBrightness(settingsNode.get("brightness").asInt());
             settings.setDifficulty(settingsNode.get("difficulty").asInt());
+            settings.setScreen(settingsNode.get("screen").asInt());
             JsonNode objectsNode = rootNode.get("objects");
             for (JsonNode objectNode : objectsNode) {
                 String className = objectNode.get("type").asText();

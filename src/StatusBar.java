@@ -1,22 +1,58 @@
-public class StatusBar {
-    private TextBox playerNameBox;
-    private TextBox timeBox;
-    private TextBox scoreText;
-    private Menu menu;
-    private Button button;
-    private GameStatistic gameStatistic;
+import java.io.Serializable;
 
-    public StatusBar(TextBox playerNameBox, TextBox timeBox, TextBox scoreText) {
-        this.playerNameBox = playerNameBox;
-        this.timeBox = timeBox;
-        this.scoreText = scoreText;
+public class StatusBar implements Serializable {
+
+    int percent;
+    String name;
+    String surname;
+    int score;
+    String time;
+
+    public StatusBar(int percent, String name, String surname, int score, String time) {
+        this.percent = percent;
+        this.name = name;
+        this.surname = surname;
+        this.score = score;
+        this.time = time;
     }
 
-    public void drawBar(){
-
+    public int getPercent() {
+        return percent;
     }
 
-    public void  showMenu(){
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

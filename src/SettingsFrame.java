@@ -24,7 +24,7 @@ public class SettingsFrame extends JFrame {
         applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                settings.setScreen(screenComboBox.getSelectedIndex());
+                settings.setScreen(screenComboBox.getItemAt(screenComboBox.getSelectedIndex()));
 
                 int w = 0;
                 int h = 0;
@@ -34,20 +34,20 @@ public class SettingsFrame extends JFrame {
                         h = 685;
                     }
                     case 1 -> {
-                        w = 770;
-                        h = 480;
+                        w = 950;
+                        h = 570;
                     }
                     case 2 -> {
-                        w = 720;
-                        h = 450;
+                        w = 850;
+                        h = 550;
                     }
                     case 3 -> {
-                        w = 620;
-                        h = 385;
+                        w = 800;
+                        h = 530;
                     }
                     case 4 -> {
-                        w = 580;
-                        h = 340;
+                        w = 700;
+                        h = 500;
                     }
                 }
                 try {

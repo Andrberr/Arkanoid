@@ -52,4 +52,20 @@ public class Platform extends GameFigure implements Serializable {
         g2d.fill(rect);
         g2d.draw(rect);
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

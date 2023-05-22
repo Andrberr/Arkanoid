@@ -8,7 +8,10 @@ public class Platforms {
 
     public Platforms(double koef, int width, int height) {
         platforms = new ArrayList<>();
-        Platform platform = new Platform((int) (450 * koef), (int) (660 * koef), (int) (610 * koef), (int) (675 * koef), (int) (530 * koef), (int) (667 * koef), new Color(36, 53, 164).getRGB(), 3, false, 5, 0, width, height);
+        double k = koef * 15;
+        int endY = height - 30 + (int) k;
+        int centerY = height - 30 + (endY - height - 30) / 2;
+        Platform platform = new Platform((int) (450 * koef), height - 30, (int) (610 * koef), endY, (int) (530 * koef), centerY, new Color(36, 53, 164).getRGB(), 3, false, 5, 0, width, height);
         addDesk(platform);
     }
 

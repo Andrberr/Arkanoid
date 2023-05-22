@@ -1,20 +1,18 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Settings implements Serializable {
     int difficulty;
 
-    public int getScreen() {
+    String screen;
+
+    public String getScreen() {
         return screen;
     }
 
-    public void setScreen(int screen) {
+    public void setScreen(String screen) {
         this.screen = screen;
     }
-
-    int screen;
-
-
 
     transient SettingsFrame settingsFrame;
 
@@ -29,10 +27,6 @@ public class Settings implements Serializable {
         this.difficulty = difficulty;
     }
 
-
-    public SettingsFrame getSettingsFrame() {
-        return settingsFrame;
-    }
 
     public void setSettingsFrame(SettingsFrame settingsFrame) {
         this.settingsFrame = settingsFrame;

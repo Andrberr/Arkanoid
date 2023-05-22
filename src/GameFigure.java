@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 import static java.lang.Math.random;
 
@@ -47,7 +48,10 @@ public abstract class GameFigure {
         boolean withBlock = false;
         boolean res = (x2 >= x3) && (x1 <= x4) && (y2 >= y3) && (y1 <= y4);
         if (res) {
-            dx = (dx + (int) (random() * 5)) * (-1);
+            int k;
+            if (getRand() == 0) k = 1;
+            else k = -1;
+            dx = (dx + (int) (random() * 5)) * k;
             dy = (dy) * (-1);
             if (gameFigure.getClass().toString().equals("class Block")) {
                 Block block = (Block) gameFigure;
@@ -146,5 +150,10 @@ public abstract class GameFigure {
 
     public void setStatic(Boolean isStatic) {
         this.isStatic = isStatic;
+    }
+
+    private int getRand() {
+        Random random = new Random();
+        return random.nextInt(2);
     }
 }

@@ -1,27 +1,14 @@
 import java.io.Serializable;
 
 public class StatusBar implements Serializable {
+    private String name;
+    private String surname;
+    private String progressBar;
+    private String time;
+    private String destroyed;
+    transient private Menu menu;
 
-    int percent;
-    String name;
-    String surname;
-    int score;
-    String time;
-
-    public StatusBar(int percent, String name, String surname, int score, String time) {
-        this.percent = percent;
-        this.name = name;
-        this.surname = surname;
-        this.score = score;
-        this.time = time;
-    }
-
-    public int getPercent() {
-        return percent;
-    }
-
-    public void setPercent(int percent) {
-        this.percent = percent;
+    public StatusBar() {
     }
 
     public String getName() {
@@ -40,12 +27,12 @@ public class StatusBar implements Serializable {
         this.surname = surname;
     }
 
-    public int getScore() {
-        return score;
+    public String getProgressBar() {
+        return progressBar;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setProgressBar(String progressBar) {
+        this.progressBar = progressBar;
     }
 
     public String getTime() {
@@ -54,5 +41,21 @@ public class StatusBar implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public String getDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(String destroyed) {
+        this.destroyed = destroyed;
     }
 }

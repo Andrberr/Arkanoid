@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class GameField extends JFrame {
@@ -21,9 +22,6 @@ public class GameField extends JFrame {
     int textSize = 0;
     int spacing = 0;
 
-    StatusBar bar;
-
-
     JProgressBar progressBar;
     JButton button;
     JTextField textField1;
@@ -31,37 +29,49 @@ public class GameField extends JFrame {
     JTextField textField3;
     JTextField textField4;
 
-    public GameField(Game game, int width, int height, String name, String surname) throws InterruptedException {
+
+    public GameField(Game game, int width, int height) throws InterruptedException {
         this.game = game;
         this.width = width;
         this.height = height;
 
+        int dx = 0;
+        int dy = 0;
+
         switch (width) {
             case 1100 -> {
                 koef = 1;
-                textSize = 18;
+                textSize = 14;
                 spacing = 30;
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
             }
-            case 770 -> {
-                koef = 0.7;
-                textSize = 17;
-                spacing = 22;
-            }
-            case 720 -> {
-                koef = 0.65;
-                textSize = 16;
-                spacing = 20;
-            }
-            case 620 -> {
-                koef = 0.56;
-                textSize = 14;
-                spacing = 12;
-            }
-            case 580 -> {
-                koef = 0.52;
+            case 950 -> {
+                koef = 0.8;
                 textSize = 12;
+                spacing = 22;
+                dx = 200;
+                dy = 100;
+            }
+            case 850 -> {
+                koef = 0.7;
+                textSize = 10;
+                spacing = 20;
+                dx = 180;
+                dy = 100;
+            }
+            case 800 -> {
+                koef = 0.64;
+                textSize = 10;
+                spacing = 12;
+                dx = 180;
+                dy = 100;
+            }
+            case 700 -> {
+                koef = 0.55;
+                textSize = 10;
                 spacing = 8;
+                dx = 180;
+                dy = 100;
             }
         }
 
@@ -118,8 +128,6 @@ public class GameField extends JFrame {
                 try {
                     game.loadFromFile();
                     game.resumeGame();
-                    getContentPane().getComponent(1).requestFocus();
-
                     Runnable myRunnable = new Runnable() {
                         @Override
                         public void run() {
@@ -153,7 +161,7 @@ public class GameField extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Game.timer.stop();
+                if (Game.timer != null) Game.timer.stop();
                 System.exit(0);
             }
         });
@@ -182,17 +190,14 @@ public class GameField extends JFrame {
 
         textField1 = new JTextField();
         textField1.setEditable(false);
-        textField1.setText("Name: " + name);
         textField2 = new JTextField();
         textField2.setEditable(false);
-        textField2.setText("Surname: " + surname);
         textField3 = new JTextField();
         textField3.setEditable(false);
-        textField3.setText("Score: 0");
         textField4 = new JTextField();
         textField4.setEditable(false);
-        textField4.setText("Time: 00:00");
-        bar = new StatusBar(progressValue, name, surname, progressValue / 2, "00:00");
+        //textField4.setPreferredSize(new Dimension(50, 20));
+
         Font font = new Font(textField1.getFont().getName(), Font.PLAIN, textSize);
         textField1.setFont(font);
         font = new Font(textField2.getFont().getName(), Font.PLAIN, textSize);
@@ -224,29 +229,60 @@ public class GameField extends JFrame {
 
         menuPanel.setBackground(new Color(171, 149, 39));
         getContentPane().add(menuPanel, BorderLayout.EAST);
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(width, height);
+        setUndecorated(true);
+        setSize(width + dx, height + dy);
         setVisible(true);
+        getContentPane().getComponent(1).requestFocus();
+    }
+
+    void setDisplayObjects(ArrayList<GameFigure> objects) {
+        getContentPane().remove(1);
+        displayObjects = new DisplayObjects(width, height, koef);
+        displayObjects.setFigures(objects);
+        getContentPane().add(displayObjects, 1);
         getContentPane().getComponent(1).requestFocus();
     }
 
     void setProgressValue() {
         progressValue += 2;
-        progressBar.setValue(progressValue);
-        bar.setPercent(progressValue);
-        bar.setScore(progressValue / 2);
-        textField3.setText("Score: " + progressValue / 2);
+        game.statusBar.setProgressBar(Integer.toString(progressValue));
+        progressBar.setValue(Integer.parseInt(game.statusBar.getProgressBar()));
+        game.statusBar.setDestroyed(Integer.toString(progressValue / 2));
+        textField3.setText("Destroyed: " + Integer.parseInt(game.statusBar.getProgressBar()) / 2);
     }
+
 
     void formatTime(long elapsedTime) {
         SimpleDateFormat format = new SimpleDateFormat("mm:ss");
         Date date = new Date(elapsedTime);
         String time = format.format(date);
-        textField4.setText("Time: " + time);
-        bar.setTime(time);
+        game.statusBar.setTime(time);
+        textField4.setText("Time: " + game.statusBar.getTime());
     }
 
+    public void close() {
+        getContentPane().removeAll();
+        setVisible(false);
+        flag = true;
+    }
+
+    public void setStatusBarFields(String name, String surname, String destr, String progress, String time){
+        game.statusBar.setName(name);
+        game.statusBar.setSurname(surname);
+        game.statusBar.setDestroyed(destr);
+        game.statusBar.setProgressBar(progress);
+        game.statusBar.setTime(time);
+    }
+
+    public void updateStatusBar() {
+        textField1.setText("Name: " + game.statusBar.getName());
+        textField2.setText("Surname: " + game.statusBar.getSurname());
+        textField3.setText("Destroyed: " + game.statusBar.getDestroyed());
+        textField4.setText("Time: " + game.statusBar.getTime());
+        progressBar.setValue(Integer.parseInt(game.statusBar.getProgressBar()));
+        progressValue = Integer.parseInt(game.statusBar.getProgressBar());
+    }
 
     public DisplayObjects getDisplayFigures() {
         return displayObjects;
@@ -256,9 +292,4 @@ public class GameField extends JFrame {
         this.displayObjects = displayObjects;
     }
 
-    public void close() {
-        getContentPane().removeAll();
-        setVisible(false);
-        flag = true;
-    }
 }

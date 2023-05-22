@@ -8,8 +8,8 @@ import static java.lang.Math.abs;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ball extends GameFigure {
 
-    int width;
-    int height;
+    private int width;
+    private int height;
 
     public Ball(int startX, int startY, int endX, int endY, int centerX, int centerY, int color, int drawAmount, Boolean isStatic, int dx, int dy, int width, int height) {
         super(startX, startY, endX, endY, centerX, centerY, color, drawAmount, isStatic, dx, dy);
@@ -23,7 +23,7 @@ public class Ball extends GameFigure {
     @Override
     boolean figureMove() {
         if (startY > height) return false;
-        if (endY < 0) dy = -dy;
+        if (startY < 3) dy = -dy;
         if (getStartX() < 0 || endX > width) dx = -dx;
         setStartX(getStartX() + dx);
         endX = endX + dx;
@@ -44,4 +44,19 @@ public class Ball extends GameFigure {
         drawAmount = speed;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

@@ -7,6 +7,14 @@ import static java.lang.Math.abs;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Block extends GameFigure {
+    public Boolean getHitted() {
+        return isHitted;
+    }
+
+    public void setHitted(Boolean hitted) {
+        isHitted = hitted;
+    }
+
     Boolean isHitted = false;
 
     public Block(int startX, int startY, int endX, int endY, int X, int Y, int color, int drawAmount, Boolean isStatic, int dx, int dy) {
@@ -37,10 +45,6 @@ public class Block extends GameFigure {
             startY = 0;
             endY = 0;
         }
-    }
-
-    public void setHitted(Boolean hitted) {
-        isHitted = hitted;
     }
 
 }

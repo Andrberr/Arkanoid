@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class DisplayObjects extends JPanel {
     private ArrayList<GameFigure> figures;
     Platform currentDesk;
-    int currentIndex = 0;
     double koef;
     int width;
     int height;
@@ -51,13 +50,13 @@ public class DisplayObjects extends JPanel {
         g2d.drawLine(width, 0, width, height);
     }
 
-    public void addFigure(ArrayList<GameFigure> figures) {
-        this.figures.addAll(figures);
-    }
     public void removeFigure(GameFigure figures[]) {
     }
 
     public ArrayList<GameFigure> getFigures() {
         return figures;
+    }
+    public void setFigures(ArrayList<GameFigure> figures) {
+        this.figures = figures;
     }
 }

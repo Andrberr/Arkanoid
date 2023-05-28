@@ -17,14 +17,22 @@ public class ProxyClass {
                 if (!Modifier.isTransient(field.getModifiers())) {
                     field.setAccessible(true);
                     Object value = field.get(obj);
-                    System.out.println(field.getName() + " = " + value);
-                    writer.println(field.getName() + "->" + value);
+                    if (field.getType().equals(Bonus.class)){
+                        System.out.println(field.getClass().getDeclaredFields().length);
+                        for (Field field2 : field.getClass().getDeclaredFields()) {
+                            if (!Modifier.isTransient(field.getModifiers())) {
+                                field2.setAccessible(true);
+                                Object value2 = field2.get(value);
+                                System.out.println(value2);
+                                writer.println(field2.getName() + "->" + value2);
+                            }
+                        }
+                    } else writer.println(field.getName() + "->" + value);
                 }
             }
             for (Field field : obj.getClass().getSuperclass().getDeclaredFields()) {
                 field.setAccessible(true);
                 Object value = field.get(obj);
-                System.out.println(field.getName() + " = " + value);
                 writer.println(field.getName() + "->" + value);
             }
         } catch (IOException | IllegalAccessException e) {
@@ -176,8 +184,18 @@ public class ProxyClass {
             for (JsonNode objectNode : objectsNode) {
                 String className = objectNode.get("type").asText();
                 Class<?> clazz = Class.forName(className);
-                GameFigure object = (GameFigure) mapper.readValue(objectNode.toString(), clazz);
-                figures.add(object);
+                if (className.equals("Block")) {
+                    Block object = mapper.readValue(objectNode.toString(), Block.class);
+                    JsonNode bonusNode = objectNode.get("bonus");
+                    if (bonusNode != null) {
+                        Bonus bonus = mapper.readValue(bonusNode.toString(), Bonus.class);
+                        object.setBonus(bonus);
+                        figures.add(object);
+                    }
+                } else {
+                    GameFigure object = (GameFigure) mapper.readValue(objectNode.toString(), clazz);
+                    figures.add(object);
+                }
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

@@ -2,11 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.ImageObserver;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
-public class GameField extends JFrame {
+public class GameField extends JFrame implements Observer {
     DisplayObjects displayObjects;
 
     Game game;
@@ -18,6 +21,8 @@ public class GameField extends JFrame {
     boolean flag = true;
 
     int progressValue = 0;
+
+    int score = 0;
 
     int textSize = 0;
     int spacing = 0;
@@ -167,10 +172,13 @@ public class GameField extends JFrame {
         });
 
 
-        //ProgressBar
+        //Objects
+        displayObjects = new DisplayObjects(width, height, koef);
 
+        //ProgressBar
         progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
+        progressBar.setMaximum(displayObjects.getBrokeKol());
         progressBar.setValue(0);
 
         button = new JButton("Menu");
@@ -223,8 +231,6 @@ public class GameField extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(panel, BorderLayout.NORTH);
 
-        //Objects
-        displayObjects = new DisplayObjects(width, height, koef);
         getContentPane().add(displayObjects);
 
         menuPanel.setBackground(new Color(171, 149, 39));
@@ -240,16 +246,18 @@ public class GameField extends JFrame {
         getContentPane().remove(1);
         displayObjects = new DisplayObjects(width, height, koef);
         displayObjects.setFigures(objects);
+        progressBar.setMaximum(displayObjects.getBrokeKol());
         getContentPane().add(displayObjects, 1);
         getContentPane().getComponent(1).requestFocus();
     }
 
     void setProgressValue() {
-        progressValue += 2;
+        progressValue++;
+        score++;
         game.statusBar.setProgressBar(Integer.toString(progressValue));
-        progressBar.setValue(Integer.parseInt(game.statusBar.getProgressBar()));
-        game.statusBar.setDestroyed(Integer.toString(progressValue / 2));
-        textField3.setText("Destroyed: " + Integer.parseInt(game.statusBar.getProgressBar()) / 2);
+        progressBar.setValue(progressValue);
+        game.statusBar.setDestroyed(Integer.toString(score));
+        textField3.setText("Score: " + score);
     }
 
 
@@ -267,7 +275,7 @@ public class GameField extends JFrame {
         flag = true;
     }
 
-    public void setStatusBarFields(String name, String surname, String destr, String progress, String time){
+    public void setStatusBarFields(String name, String surname, String destr, String progress, String time) {
         game.statusBar.setName(name);
         game.statusBar.setSurname(surname);
         game.statusBar.setDestroyed(destr);
@@ -278,7 +286,7 @@ public class GameField extends JFrame {
     public void updateStatusBar() {
         textField1.setText("Name: " + game.statusBar.getName());
         textField2.setText("Surname: " + game.statusBar.getSurname());
-        textField3.setText("Destroyed: " + game.statusBar.getDestroyed());
+        textField3.setText("Score: " + game.statusBar.getDestroyed());
         textField4.setText("Time: " + game.statusBar.getTime());
         progressBar.setValue(Integer.parseInt(game.statusBar.getProgressBar()));
         progressValue = Integer.parseInt(game.statusBar.getProgressBar());
@@ -292,4 +300,12 @@ public class GameField extends JFrame {
         this.displayObjects = displayObjects;
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof Event event) {
+            if (event.bonusType == 3) score += event.score;
+            game.statusBar.setDestroyed(Integer.toString(score));
+            textField3.setText("Score: " + score);
+        }
+    }
 }

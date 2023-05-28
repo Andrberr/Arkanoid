@@ -16,7 +16,9 @@ public abstract class GameFigure {
     int dx;
     int dy;
 
-    public GameFigure(int startX, int startY, int endX, int endY, int X, int Y, int color, int drawAmount, boolean isStatic, int dx, int dy) {
+    int height;
+
+    public GameFigure(int startX, int startY, int endX, int endY, int X, int Y, int color, int drawAmount, boolean isStatic, int dx, int dy, int height) {
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
@@ -28,6 +30,7 @@ public abstract class GameFigure {
         this.isStatic = isStatic;
         this.dx = dx;
         this.dy = dy;
+        this.height = height;
     }
 
     public GameFigure() {
@@ -46,7 +49,7 @@ public abstract class GameFigure {
         int y3 = gameFigure.startY;
         int y4 = gameFigure.endY;
         boolean withBlock = false;
-        boolean res = (x2 >= x3) && (x1 <= x4) && (y2 >= y3) && (y1 <= y4);
+        boolean res = (x2 > x3) && (x1 < x4) && (y2 > y3) && (y1 < y4);
         if (res) {
             int k;
             if (getRand() == 0) k = 1;
@@ -55,10 +58,41 @@ public abstract class GameFigure {
             dy = (dy) * (-1);
             if (gameFigure.getClass().toString().equals("class Block")) {
                 Block block = (Block) gameFigure;
-                block.setHitted(true);
-                withBlock = true;
+                if (block.getBroke()) {
+                    block.setHitted(true);
+                    withBlock = true;
+                }
             }
         }
+
+        if (this instanceof Platform platform && gameFigure instanceof Block block) {
+            if (block.isHitted && block.getBonus() != null) {
+                if (block.getBonus().getEndY() <= height) {
+                    x3 = block.getBonus().getStartX();
+                    x4 = block.getBonus().getEndX();
+                    y3 = block.getBonus().getStartY();
+                    y4 = block.getBonus().getEndY();
+                    res = (x2 >= x3) && (x1 <= x4) && (y2 >= y3) && (y1 <= y4);
+                    if (res) {
+                        Event event = new Event(block.getBonus().getType(), block.getBonus().getScore());
+                        DisplayObjects.eventSource.fireEvent(event);
+                        block.getBonus().setEndY(height + 10);
+                    }
+                }
+            } else {
+                if (platform.getHasGun()) {
+                    boolean col = platform.getGunY() <= block.getEndY() && platform.getGunX() >= block.getStartX() && platform.getGunX() <= block.getEndX();
+                    if (block.getBroke() && col) {
+                        block.setHitted(true);
+                        withBlock = true;
+                        platform.setGunY(platform.getStartY() - 30);
+                    } else if (!block.getBroke() && col) {
+                        platform.setGunY(platform.getStartY() - 30);
+                    }
+                }
+            }
+        }
+
         return withBlock;
     }
 

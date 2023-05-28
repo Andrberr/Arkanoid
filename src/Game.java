@@ -7,8 +7,10 @@ import java.io.PrintWriter;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Game {
+public class Game{
     static GameField gameField;
     Players players;
 
@@ -21,6 +23,9 @@ public class Game {
     static Timer timer;
     static long currTime = 0L;
 
+    //    static long bonusTime = 0L;
+//    private static int score;
+//    private static int bonusType;
     StatusBar statusBar;
 
     static StatusBar bar;
@@ -34,8 +39,9 @@ public class Game {
         statusBar = new StatusBar();
         settings = new Settings();
         gameField = new GameField(this, 1100, 685);
-        gameField.setStatusBarFields("Andrey", "Beryozkin", "0", "0", "00:00");
+        gameField.setStatusBarFields("Andrey", "Beryozkin", "00", "0", "00:00");
         gameField.updateStatusBar();
+        DisplayObjects.eventSource.addObserver(gameField);
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -98,6 +104,7 @@ public class Game {
             gameField.close();
         }
         gameField = new GameField(this, width, height);
+        DisplayObjects.eventSource.addObserver(gameField);
         gameField.setStatusBarFields("Andrey", "Beryozkin", "0", "0", "00:00");
         gameField.updateStatusBar();
     }
@@ -123,9 +130,10 @@ public class Game {
     public void loadFromFile() throws InterruptedException {
         ProxyClass proxy = new ProxyClass();
         ArrayList<GameFigure> figures = new ArrayList<>();
-        proxy.deserializeFromJsonFile("save_game.json", figures);
 
-     //   proxy.deserializeFields("save_game.txt", figures);
+       // proxy.deserializeFromJsonFile("save_game.json", figures);
+
+       proxy.deserializeFields("save_game.txt", figures);
 
         int width = 0;
         int height = 0;
@@ -140,6 +148,7 @@ public class Game {
         this.statusBar = bar;
         this.settings = sett;
         gameField = new GameField(this, width, height);
+        DisplayObjects.eventSource.addObserver(gameField);
         String[] arr = bar.getTime().split(":");
         long t;
         if (arr[0].equals("0")) t = Long.parseLong(arr[1]);
@@ -158,17 +167,17 @@ public class Game {
 
     public void saveInFile() throws InterruptedException, NoSuchFieldException, IllegalAccessException {
         ProxyClass proxy = new ProxyClass();
-//        try (PrintWriter writer = new PrintWriter(new FileWriter("save_game.txt", false))) {
-//            writer.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        for (GameFigure figure : gameField.displayObjects.getFigures()) {
-//            proxy.serializeField("save_game.txt", figure);
-//        }
-//        proxy.serializeField("save_game.txt", settings);
-//        proxy.serializeField("save_game.txt", statusBar);
-         proxy.serializeToJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings, statusBar);
+        try (PrintWriter writer = new PrintWriter(new FileWriter("save_game.txt", false))) {
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (GameFigure figure : gameField.displayObjects.getFigures()) {
+            proxy.serializeField("save_game.txt", figure);
+        }
+        proxy.serializeField("save_game.txt", settings);
+        proxy.serializeField("save_game.txt", statusBar);
+      //  proxy.serializeToJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings, statusBar);
     }
 
     public void settingsGame() throws InterruptedException {

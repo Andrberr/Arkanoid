@@ -11,7 +11,9 @@ public class Balls {
         double k = koef * 30;
         int startY = height - 30 - (int) k;
         int centerY = startY + (height - 30 - startY) / 2;
-        addBall(new Ball((int) (516 * koef), startY, (int) (546 * koef), height - 30, (int) (531 * koef), centerY, new Color(206, 18, 46).getRGB(), 2, false, 1, 3, width, height));
+        Ball ball = new Ball((int) (516 * koef), startY, (int) (546 * koef), height - 30, (int) (531 * koef), centerY, new Color(206, 18, 46).getRGB(), 2, false, 1, 3, width, height);
+        addBall(ball);
+        DisplayObjects.eventSource.addObserver(ball);
     }
 
     public ArrayList<Ball> getGameBalls() {

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
@@ -10,7 +11,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Game{
+public class Game {
     static GameField gameField;
     Players players;
 
@@ -77,6 +78,7 @@ public class Game{
         for (GameFigure figure : gameField.getDisplayFigures().getFigures()) {
             if (!figure.isStatic) {
                 if (!figure.figureMove()) {
+                    GameMessageBox.showCustomMessageBox("Game Over!!!");
                 }
             }
         }
@@ -131,9 +133,9 @@ public class Game{
         ProxyClass proxy = new ProxyClass();
         ArrayList<GameFigure> figures = new ArrayList<>();
 
-       // proxy.deserializeFromJsonFile("save_game.json", figures);
+        // proxy.deserializeFromJsonFile("save_game.json", figures);
 
-       proxy.deserializeFields("save_game.txt", figures);
+        proxy.deserializeFields("save_game.txt", figures);
 
         int width = 0;
         int height = 0;
@@ -177,7 +179,7 @@ public class Game{
         }
         proxy.serializeField("save_game.txt", settings);
         proxy.serializeField("save_game.txt", statusBar);
-      //  proxy.serializeToJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings, statusBar);
+        //  proxy.serializeToJsonFile("save_game.json", gameField.displayObjects.getFigures(), settings, statusBar);
     }
 
     public void settingsGame() throws InterruptedException {

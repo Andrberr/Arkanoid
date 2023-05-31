@@ -34,8 +34,6 @@ public class Ball extends GameFigure implements Observer {
     @Override
     boolean figureMove() {
         if (endY > height - 1) {
-            Game.timer.stop();
-            
             return false;
         }
         if (startY < 3) dy = -dy;

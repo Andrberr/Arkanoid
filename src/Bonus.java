@@ -31,8 +31,7 @@ public class Bonus extends GameFigure {
         super(startX, startY, endX, endY, centerX, centerY, color, drawAmount, isStatic, dx, dy, height);
         Random random = new Random();
         type = random.nextInt(5) + 1;
-        if (type == 3) score = random.nextInt(10) + 1;
-        else score = 0;
+        score = random.nextInt(10) + 1;
     }
 
     public Bonus() {
@@ -59,23 +58,23 @@ public class Bonus extends GameFigure {
         String text = "";
         switch (type) {
             case 1 -> {
-                text = "Size+";
+                text = "+"+score;
             }
             case 2 -> {
-                text = "Invis";
+                text = "+"+score;
             }
             case 3 -> {
                 text = "+" + score;
             }
             case 4 -> {
-                text = "Speed";
+                text = "+"+score;
             }
             case 5 -> {
-                text = "Gun";
+                text = "+"+score;
             }
         }
         Font font = new Font("Arial", Font.BOLD, 14);
         g2d.setFont(font);
-        g2d.drawString(text, getStartX() + (getX() - getStartX()) / 2, getY());
+        g2d.drawString(text, getStartX() + (getX() - getStartX()) / 3, getY());
     }
 }

@@ -83,7 +83,7 @@ public class GameField extends JFrame implements Observer {
         setTitle("Arkanoid");
 
         //Menu
-        JPanel menuPanel = new JPanel(new GridLayout(5, 1, 0, 5));
+        JPanel menuPanel = new JPanel(new GridLayout(8, 1, 0, 5));
         menuPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20)); // добавляем отступы в 10 пикселей сверху, снизу, слева и справа
         JButton resumeGameButton = new JButton("Resume game");
         resumeGameButton.setVisible(false);
@@ -242,10 +242,6 @@ public class GameField extends JFrame implements Observer {
         getContentPane().getComponent(1).requestFocus();
     }
 
-    void drawEndOfGame() {
-
-    }
-
     void setDisplayObjects(ArrayList<GameFigure> objects) {
         getContentPane().remove(1);
         displayObjects = new DisplayObjects(width, height, koef);
@@ -307,7 +303,7 @@ public class GameField extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Event event) {
-            if (event.bonusType == 3) score += event.score;
+            score += event.score;
             game.statusBar.setDestroyed(Integer.toString(score));
             textField3.setText("Score: " + score);
         }

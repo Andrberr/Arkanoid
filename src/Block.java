@@ -12,7 +12,7 @@ public class Block extends GameFigure {
     Boolean isHitted = false;
     private Boolean isBroke = false;
 
-    private Bonus bonus = null;
+    private Bonus[] bonuses;
 
     transient private final Random random = new Random();
 
@@ -40,6 +40,16 @@ public class Block extends GameFigure {
     public void setBroke(Boolean broke) {
         isBroke = broke;
     }
+
+    public Bonus[] getBonuses() {
+        return bonuses;
+    }
+
+    public void setBonuses(Bonus[] bonuses) {
+        this.bonuses = bonuses;
+    }
+
+    private Bonus bonus = null;
 
     public Block(int startX, int startY, int endX, int endY, int X, int Y, int color, int drawAmount, Boolean isStatic, int dx, int dy, int height) {
         super(startX, startY, endX, endY, X, Y, color, drawAmount, isStatic, dx, dy, height);
@@ -73,8 +83,7 @@ public class Block extends GameFigure {
     void setBonus(int height) {
         if (!isBroke) return;
         int k = random.nextInt(2);
-        if (k == 0) {
-            bonus = new Bonus(getStartX(), getStartY(), getStartX() + 60, getStartY() + 50, getStartX() + 30, getStartY() + 25, new Color(54, 213, 166).getRGB(), 1, false, 0, 5, height);
-        }
+        bonus = new Bonus(getStartX(), getStartY(), getStartX() + 70, getStartY() + 50, getStartX() + 35, getStartY() + 25, new Color(54, 213, 166).getRGB(), 1, false, 0, 5, height);
+
     }
 }

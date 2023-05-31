@@ -35,18 +35,18 @@ public class Blocks {
         initBlocks((int) (790 * koef), (int) (880 * koef), (int) (835 * koef), colors, koef, height);
 
         Block block = new Block((int) (100 * koef), (int) (290 * koef), (int) (190 * koef), (int) (330 * koef), (int) (145 * koef), (int) (310 * koef), (new Color(242, 98, 246)).getRGB(), 1, true, 0, 0, height);
-        addBlockToList(block);
+        addBlockToList(block, 1);
         block = new Block((int) (220 * koef), (int) (290 * koef), (int) (310 * koef), (int) (330 * koef), (int) (265 * koef), (int) (310 * koef), (new Color(242, 98, 246)).getRGB(), 1, true, 0, 0, height);
-        addBlockToList(block);
+        addBlockToList(block, 1);
 
         block = new Block((int) (510 * koef), (int) (290 * koef), (int) (600 * koef), (int) (330 * koef), (int) (555 * koef), (int) (310 * koef), (new Color(54, 213, 166)).getRGB(), 1, true, 0, 0, height);
-        addBlockToList(block);
+        addBlockToList(block, 1);
 
         block = new Block((int) (820 * koef), (int) (290 * koef), (int) (910 * koef), (int) (330 * koef), (int) (865 * koef), (int) (310 * koef), (new Color(19, 87, 190)).getRGB(), 1, true, 0, 0, height);
-        addBlockToList(block);
+        addBlockToList(block, 1);
 
         block = new Block((int) (940 * koef), (int) (290 * koef), (int) (1030 * koef), (int) (330 * koef), (int) (985 * koef), (int) (310 * koef), (new Color(19, 87, 190)).getRGB(), 1, true, 0, 0, height);
-        addBlockToList(block);
+        addBlockToList(block, 1);
     }
 
     void initBlocks(int x1, int x2, int x, Color[] colors, double koef, int height) {
@@ -59,7 +59,12 @@ public class Blocks {
             int rx = x;
             for (int j = 0; j < 3; j++) {
                 Block block = new Block(rx1, y1, rx2, y2, rx, y, colors[i].getRGB(), 1, true, 0, 0, height );
-                addBlockToList(block);
+                if (i==0) addBlockToList(block, random.nextInt(3));
+                if (i==1) addBlockToList(block, random.nextInt(3));
+                if (i==2) addBlockToList(block, random.nextInt(3));
+                if (i==3) addBlockToList(block, 1);
+                if (i==4) addBlockToList(block, 1);
+
                 rx1 += (int) (90 * koef);
                 rx2 += (int) (90 * koef);
                 rx += (int) (90 * koef);
@@ -70,8 +75,8 @@ public class Blocks {
         }
     }
 
-    private void addBlockToList(Block block) {
-        int k = random.nextInt(6);
+    private void addBlockToList(Block block, int k) {
+//        int k = random.nextInt(10);
         if (k == 0) {
             block.setBroke(false);
             block.setColor(notBrokeColor);

@@ -8,7 +8,6 @@ import static java.lang.Math.abs;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Bonus extends GameFigure {
-    transient private final Random random = new Random();
     private int type;
     private int score;
 
@@ -30,7 +29,8 @@ public class Bonus extends GameFigure {
 
     public Bonus(int startX, int startY, int endX, int endY, int centerX, int centerY, int color, int drawAmount, Boolean isStatic, int dx, int dy, int height) {
         super(startX, startY, endX, endY, centerX, centerY, color, drawAmount, isStatic, dx, dy, height);
-        type = 3;//random.nextInt(5) + 1;
+        Random random = new Random();
+        type = random.nextInt(5) + 1;
         if (type == 3) score = random.nextInt(10) + 1;
         else score = 0;
     }

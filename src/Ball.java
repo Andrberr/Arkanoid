@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.awt.*;
-import java.lang.reflect.Field;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -34,7 +33,11 @@ public class Ball extends GameFigure implements Observer {
 
     @Override
     boolean figureMove() {
-        if (endY > height - 1) return false;
+        if (endY > height - 1) {
+            Game.timer.stop();
+            
+            return false;
+        }
         if (startY < 3) dy = -dy;
         if (getStartX() < 0 || endX > width) dx = -dx;
         setStartX(getStartX() + dx);

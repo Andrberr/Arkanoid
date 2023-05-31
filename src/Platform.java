@@ -14,7 +14,7 @@ import static java.lang.Math.abs;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Platform extends GameFigure implements Serializable, Observer {
-    KeyEvent key;
+    transient KeyEvent key;
     int width;
 
     private Boolean hasGun;
@@ -23,8 +23,8 @@ public class Platform extends GameFigure implements Serializable, Observer {
     private Boolean secBonus;
     private Boolean fifthBonus;
 
-    Color invisColor = new Color(171, 149, 39);
-    Color visColor = new Color(36, 53, 164);
+    int invisColor = new Color(171, 149, 39).getRGB();
+    int visColor = new Color(36, 53, 164).getRGB();
 
     public int getGunX() {
         return gunX;
@@ -100,7 +100,7 @@ public class Platform extends GameFigure implements Serializable, Observer {
         g2d.fill(rect);
         g2d.draw(rect);
         if (hasGun) {
-            if (getColor() == invisColor.getRGB()) g2d.setColor(invisColor);
+            if (getColor() == invisColor) g2d.setColor(new Color(invisColor));
             else g2d.setColor(Color.BLACK);
 
             rect = new Rectangle(getX() - 5, startY - 30, 5, 30);
@@ -158,7 +158,7 @@ public class Platform extends GameFigure implements Serializable, Observer {
 
             } else if (event.bonusType == 2 && !secBonus) {
                 secBonus = true;
-                setColor(invisColor.getRGB());
+                setColor(invisColor);
                 Thread myThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -168,13 +168,12 @@ public class Platform extends GameFigure implements Serializable, Observer {
                             currTime = System.currentTimeMillis();
                             if (currTime >= time + 3000L) {
                                 secBonus = false;
-                                setColor(visColor.getRGB());
+                                setColor(visColor);
                                 break;
                             }
                         }
                     }
                 });
-
                 myThread.start();
             } else if (event.bonusType == 5 && !fifthBonus) {
                 fifthBonus = true;

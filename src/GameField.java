@@ -242,6 +242,10 @@ public class GameField extends JFrame implements Observer {
         getContentPane().getComponent(1).requestFocus();
     }
 
+    void drawEndOfGame() {
+
+    }
+
     void setDisplayObjects(ArrayList<GameFigure> objects) {
         getContentPane().remove(1);
         displayObjects = new DisplayObjects(width, height, koef);

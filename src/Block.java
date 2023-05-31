@@ -73,8 +73,8 @@ public class Block extends GameFigure {
     void setBonus(int height) {
         if (!isBroke) return;
         int k = random.nextInt(2);
-       // if (k == 0) {
+        if (k == 0) {
             bonus = new Bonus(getStartX(), getStartY(), getStartX() + 60, getStartY() + 50, getStartX() + 30, getStartY() + 25, new Color(54, 213, 166).getRGB(), 1, false, 0, 5, height);
-      //  }
+        }
     }
 }

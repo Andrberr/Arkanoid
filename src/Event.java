@@ -1,9 +1,9 @@
 public class Event {
-    int bonusType;
+    int type;
     int score;
 
-    public Event(int bonusType, int score) {
-        this.bonusType = bonusType;
+    public Event(int type, int score) {
+        this.type = type;
         this.score = score;
     }
 }

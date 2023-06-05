@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Game {
+public class Game implements Observer {
     static GameField gameField;
     Players players;
 
@@ -24,13 +24,11 @@ public class Game {
     static Timer timer;
     static long currTime = 0L;
 
-    //    static long bonusTime = 0L;
-//    private static int score;
-//    private static int bonusType;
     StatusBar statusBar;
 
     static StatusBar bar;
     static Settings sett;
+
 
     public void setStatusBar(StatusBar statusBar) {
         this.statusBar = statusBar;
@@ -42,7 +40,10 @@ public class Game {
         gameField = new GameField(this, 1100, 685);
         gameField.setStatusBarFields("Andrey", "Beryozkin", "00", "0", "00:00");
         gameField.updateStatusBar();
+        DisplayObjects.eventSource.addObserver(this);
         DisplayObjects.eventSource.addObserver(gameField);
+        GameMessageBox gameMessageBox = new GameMessageBox();
+        DisplayObjects.eventSource.addObserver(gameMessageBox);
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -56,13 +57,7 @@ public class Game {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                move();
-                checkCollision();
-                try {
-                    draw();
-                } catch (InterruptedException ex) {
-                    System.out.println(e.toString());
-                }
+                sendEvent();
 
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 if (elapsedTime >= 1000L) {
@@ -78,7 +73,8 @@ public class Game {
         for (GameFigure figure : gameField.getDisplayFigures().getFigures()) {
             if (!figure.isStatic) {
                 if (!figure.figureMove()) {
-                    GameMessageBox.showCustomMessageBox("Game Over!!!");
+                    Event event = new Event(6, 0);
+                    DisplayObjects.eventSource.fireEvent(event);
                 }
             }
         }
@@ -184,5 +180,25 @@ public class Game {
 
     public void settingsGame() throws InterruptedException {
         settings.setSettingsFrame(new SettingsFrame(settings, this));
+    }
+
+    static void sendEvent() {
+        Event event = new Event(7, 0);
+        DisplayObjects.eventSource.fireEvent(event);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof Event event) {
+            if (event.type == 7) {
+                move();
+                checkCollision();
+                try {
+                    draw();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 }

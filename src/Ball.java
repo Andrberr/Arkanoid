@@ -76,7 +76,7 @@ public class Ball extends GameFigure implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Event event) {
-            if (event.bonusType == 4 && !fourthBonus) {
+            if (event.type == 4 && !fourthBonus) {
                 fourthBonus = true;
                 drawAmount++;
                 Thread myThread = new Thread(new Runnable() {

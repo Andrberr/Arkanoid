@@ -135,7 +135,7 @@ public class Platform extends GameFigure implements Serializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Event event) {
-            if (event.bonusType == 1 && !firBonus) {
+            if (event.type == 1 && !firBonus) {
                 firBonus = true;
                 endX += 100;
                 Thread myThread = new Thread(new Runnable() {
@@ -156,7 +156,7 @@ public class Platform extends GameFigure implements Serializable, Observer {
 
                 myThread.start();
 
-            } else if (event.bonusType == 2 && !secBonus) {
+            } else if (event.type == 2 && !secBonus) {
                 secBonus = true;
                 setColor(invisColor);
                 Thread myThread = new Thread(new Runnable() {
@@ -175,7 +175,7 @@ public class Platform extends GameFigure implements Serializable, Observer {
                     }
                 });
                 myThread.start();
-            } else if (event.bonusType == 5 && !fifthBonus) {
+            } else if (event.type == 5 && !fifthBonus) {
                 fifthBonus = true;
                 hasGun = true;
                 gunX = getX() - 5;
